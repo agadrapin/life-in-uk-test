@@ -12,7 +12,7 @@ An interactive revision app for the Life in the UK citizenship test, built as a 
 
 ## Usage
 
-Download `index.html` and open it in any modern browser — or visit the live version at [your-username.github.io/life-in-uk-test](https://your-username.github.io/life-in-uk-test).
+Download `index.html` and open it in any modern browser — or visit the live version at [agadrapin.github.io/life-in-uk-test](https://agadrapin.github.io/life-in-uk-test).
 
 No internet connection required after the initial load (fonts are loaded from Google Fonts).
 
