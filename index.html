@@ -1,0 +1,2363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life in the UK — Revision</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f1f3d;--royal:#1a3a6e;--gold:#c9a84c;--gold-light:#e8c97a;
+  --cream:#faf6ee;--parchment:#f0e8d5;--text:#1a1a2e;
+  --c-monarch:#4a9edd;--c-war:#e05c5c;--c-reform:#4cbe8a;
+  --c-event:#c9a84c;--c-law:#8fa3b0;
+  --c-science:#a78bfa;--c-sport:#f97316;--c-art:#ec4899;--c-politics:#34d399;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--cream);
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  padding:24px 16px 80px;position:relative;overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 15% 0%,rgba(201,168,76,0.07) 0%,transparent 55%),
+             radial-gradient(ellipse at 85% 100%,rgba(26,58,110,0.5) 0%,transparent 55%);
+}
+body::after{
+  content:'🇬🇧';position:fixed;bottom:-30px;right:-30px;
+  font-size:260px;opacity:0.03;pointer-events:none;z-index:0;
+}
+
+/* ── HEADER ── */
+header{text-align:center;margin-bottom:28px;position:relative;z-index:1}
+.crown{font-size:34px;display:block;margin-bottom:6px;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+h1{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,4vw,2.2rem);color:var(--gold);letter-spacing:0.5px;line-height:1.2}
+h1 em{font-style:italic;color:var(--cream)}
+.subtitle{margin-top:5px;font-size:0.78rem;color:rgba(250,246,238,0.45);letter-spacing:2.5px;text-transform:uppercase}
+
+/* ── MODE TABS ── */
+.mode-tabs{
+  display:flex;gap:3px;background:rgba(0,0,0,0.25);border-radius:12px;padding:4px;
+  margin-bottom:24px;position:relative;z-index:1;border:1px solid rgba(201,168,76,0.12);
+  flex-wrap:wrap;justify-content:center;
+}
+.mode-tab{
+  padding:7px 16px;border-radius:9px;border:none;background:transparent;
+  color:rgba(250,246,238,0.5);font-family:'DM Sans',sans-serif;font-size:0.78rem;
+  cursor:pointer;transition:all 0.2s;letter-spacing:0.3px;white-space:nowrap;
+}
+.mode-tab:hover{color:var(--cream)}
+.mode-tab.active{background:var(--gold);color:var(--navy);font-weight:600}
+
+/* ── CATEGORY TABS ── */
+.tabs{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;max-width:720px;width:100%;margin-bottom:24px;position:relative;z-index:1}
+.tab{padding:5px 13px;border-radius:20px;border:1px solid rgba(201,168,76,0.28);background:transparent;color:rgba(250,246,238,0.58);font-family:'DM Sans',sans-serif;font-size:0.75rem;cursor:pointer;transition:all 0.18s;letter-spacing:0.4px}
+.tab:hover{border-color:var(--gold);color:var(--gold)}
+.tab.active{background:var(--gold);color:var(--navy);border-color:var(--gold);font-weight:500}
+
+/* ── PROGRESS ── */
+.progress-bar{width:100%;max-width:520px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;margin-bottom:9px;position:relative;z-index:1}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;transition:width 0.4s ease}
+.progress-text{font-size:0.72rem;color:rgba(250,246,238,0.4);text-align:center;margin-bottom:22px;letter-spacing:0.8px;position:relative;z-index:1}
+
+/* ── MULTIPLE CHOICE CARD ── */
+.mc-card{
+  width:100%;max-width:620px;background:linear-gradient(135deg,#1e3461,#142448);
+  border:1px solid rgba(201,168,76,0.22);border-radius:18px;
+  padding:28px 30px 24px;position:relative;z-index:1;margin-bottom:22px;
+  box-shadow:0 18px 50px rgba(0,0,0,0.45),inset 0 1px 0 rgba(201,168,76,0.1);
+}
+.mc-card::before{content:'';position:absolute;top:11px;left:11px;right:11px;bottom:11px;border:1px solid rgba(201,168,76,0.07);border-radius:10px;pointer-events:none}
+.mc-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.mc-category{font-size:0.62rem;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);opacity:0.8;font-weight:600}
+.mc-counter{font-size:0.62rem;letter-spacing:1px;color:rgba(250,246,238,0.3);text-transform:uppercase}
+.mc-question{font-family:'Playfair Display',serif;font-size:clamp(0.97rem,2.6vw,1.18rem);color:var(--cream);line-height:1.55;margin-bottom:22px}
+.mc-options{display:flex;flex-direction:column;gap:9px}
+.mc-opt{
+  display:flex;align-items:flex-start;gap:11px;padding:11px 14px;border-radius:10px;
+  border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);
+  cursor:pointer;transition:all 0.17s;text-align:left;
+  font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--cream);line-height:1.45;
+}
+.mc-opt:hover:not(.disabled){background:rgba(201,168,76,0.09);border-color:rgba(201,168,76,0.35)}
+.mc-opt.correct{background:rgba(30,126,82,0.18)!important;border-color:#4ecb8d!important;color:#a3f0c8}
+.mc-opt.wrong{background:rgba(192,57,43,0.15)!important;border-color:#e07c6e!important;color:#f0a89e}
+.mc-opt.disabled{cursor:default}
+.mc-opt-letter{
+  width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);
+  display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;
+  flex-shrink:0;color:rgba(250,246,238,0.5);letter-spacing:0;margin-top:1px;transition:all 0.17s;
+}
+.mc-opt.correct .mc-opt-letter{background:rgba(30,126,82,0.4);border-color:#4ecb8d;color:#4ecb8d}
+.mc-opt.wrong .mc-opt-letter{background:rgba(192,57,43,0.3);border-color:#e07c6e;color:#e07c6e}
+.mc-hint{font-size:0.71rem;color:rgba(201,168,76,0.6);font-style:italic;margin-top:14px;min-height:1em;opacity:0;transition:opacity 0.3s;padding-left:2px}
+.mc-hint.visible{opacity:1}
+
+/* ── CONTROLS ── */
+.controls{display:flex;gap:10px;align-items:center;position:relative;z-index:1;margin-bottom:18px}
+.btn{display:flex;align-items:center;gap:5px;padding:9px 20px;border-radius:8px;border:none;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:500;cursor:pointer;transition:all 0.18s;letter-spacing:0.4px}
+.btn-nav{background:rgba(255,255,255,0.06);color:var(--cream);border:1px solid rgba(255,255,255,0.1)}
+.btn-nav:hover{background:rgba(255,255,255,0.11);border-color:rgba(255,255,255,0.22)}
+.btn-shuffle{background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,0.32);padding:9px 14px}
+.btn-shuffle:hover{background:rgba(201,168,76,0.09)}
+.dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;max-width:620px;position:relative;z-index:1}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.11);transition:background 0.25s;cursor:pointer}
+.dot.known{background:#4ecb8d}.dot.unsure{background:#e07c6e}.dot.current{background:var(--gold);box-shadow:0 0 5px var(--gold)}
+
+/* ═══════════════════════════════════════════
+   FAMILY TREE  — dynasties side by side
+═══════════════════════════════════════════ */
+
+/* Outer monarchs wrapper */
+#monarchsView{ position:relative; }
+
+/* Legend bar */
+#ftLegend{
+  display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;
+  margin-bottom:16px;padding:9px 14px;
+  background:rgba(0,0,0,0.2);border-radius:10px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+
+/* Main area: tree + side timeline */
+#ftMain{ display:flex; gap:0; align-items:flex-start; width:100%; }
+
+/* Horizontally scrollable tree */
+#ftTreeWrap{
+  flex:1;min-width:0;
+  overflow-x:auto;overflow-y:visible;
+  padding-bottom:16px;
+  scrollbar-width:thin;scrollbar-color:rgba(201,168,76,0.25) transparent;
+}
+
+/* Row of dynasty columns */
+#ftDynastyRow{
+  display:inline-flex;gap:0;align-items:flex-start;
+  min-width:max-content;padding:4px 2px 8px;
+}
+
+/* Arrow connectors between dynasties */
+.ft-arrow{
+  display:flex;align-items:flex-start;padding-top:48px;
+  width:28px;flex-shrink:0;justify-content:center;
+}
+.ft-arrow-inner{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  font-size:0.55rem;color:rgba(201,168,76,0.4);letter-spacing:0.5px;
+  text-align:center;line-height:1.2;
+}
+.ft-arrow-line{
+  width:1px;height:18px;background:rgba(201,168,76,0.25);
+  margin:2px 0;
+}
+.ft-arrow-head{ font-size:0.65rem; color:rgba(201,168,76,0.45); }
+
+/* Single dynasty column */
+.ft-dynasty{
+  flex-shrink:0;border-radius:12px;
+  border:1px solid rgba(255,255,255,0.07);
+  background:rgba(0,0,0,0.18);
+  overflow:hidden;
+}
+
+/* Coloured dynasty header */
+.ft-dynasty-header{
+  padding:7px 12px 6px;text-align:center;
+  font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;font-weight:600;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+}
+
+/* Node area with relative positioning for SVG */
+.ft-dynasty-body{
+  position:relative;padding:10px 10px 12px;
+  display:flex;flex-direction:column;gap:8px;
+}
+
+/* SVG layer over the body */
+.ft-dynasty-svg{
+  position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:0;
+}
+
+/* Generation row */
+.ft-row{
+  display:flex;gap:8px;justify-content:center;
+  position:relative;z-index:1;
+}
+
+/* Monarch node card */
+.ft-node{
+  width:112px;flex-shrink:0;border-radius:9px;padding:8px 10px;
+  border:1px solid rgba(255,255,255,0.1);cursor:pointer;
+  position:relative;transition:border-color 0.15s,box-shadow 0.15s,transform 0.15s;
+  background:rgba(255,255,255,0.04);
+}
+.ft-node:hover{ transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,0.5); }
+.ft-node.reigned{ border-left-width:3px; }
+.ft-node.active{
+  box-shadow:0 0 0 2px var(--gold),0 6px 22px rgba(0,0,0,0.55)!important;
+  border-color:var(--gold)!important;
+}
+.ft-node-crown{ font-size:0.82rem;display:block;margin-bottom:2px;line-height:1; }
+.ft-node-name{
+  font-family:'Playfair Display',serif;
+  font-size:0.69rem;line-height:1.28;margin-bottom:2px;
+}
+.ft-node-reign{ font-size:0.56rem;opacity:0.5;letter-spacing:0.3px; }
+.ft-node-note{ font-size:0.52rem;opacity:0.35;font-style:italic;margin-top:3px;line-height:1.25; }
+
+/* ── Side timeline ── */
+#ftTimeline{
+  width:190px;flex-shrink:0;
+  padding-left:14px;border-left:1px solid rgba(201,168,76,0.16);
+  margin-left:12px;max-height:78vh;overflow-y:auto;
+  scrollbar-width:thin;scrollbar-color:rgba(201,168,76,0.25) transparent;
+}
+.ft-tl-head{
+  font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(201,168,76,0.5);margin-bottom:10px;text-align:center;
+}
+.ft-tl-item{
+  display:flex;align-items:flex-start;gap:7px;margin-bottom:6px;
+  cursor:pointer;padding:5px 7px;border-radius:7px;
+  transition:background 0.14s;border:1px solid transparent;
+}
+.ft-tl-item:hover{ background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.08); }
+.ft-tl-item.active{ background:rgba(201,168,76,0.08);border-color:rgba(201,168,76,0.28); }
+.ft-tl-bar{ width:3px;border-radius:2px;flex-shrink:0;align-self:stretch;min-height:32px; }
+.ft-tl-name{ font-family:'Playfair Display',serif;font-size:0.68rem;line-height:1.22;margin-bottom:1px; }
+.ft-tl-reign{ font-size:0.57rem;opacity:0.4;letter-spacing:0.3px; }
+
+/* ── POPUP MODAL ── */
+#ftPopupOverlay{
+  display:none;position:fixed;inset:0;z-index:9999;
+  background:rgba(4,10,24,0.8);backdrop-filter:blur(5px);
+  align-items:center;justify-content:center;padding:20px;
+}
+#ftPopupOverlay.open{ display:flex; }
+#ftPopup{
+  position:relative;max-width:460px;width:100%;
+  border-radius:18px;padding:26px 26px 22px;
+  border:1px solid rgba(255,255,255,0.12);
+  box-shadow:0 32px 80px rgba(0,0,0,0.75),0 0 0 1px rgba(255,255,255,0.04);
+  background:linear-gradient(150deg,#16233f 0%,#0c1628 100%);
+  animation:popIn 0.2s cubic-bezier(0.34,1.5,0.64,1);
+  max-height:90vh;overflow-y:auto;
+}
+@keyframes popIn{
+  from{ transform:scale(0.86) translateY(14px);opacity:0; }
+  to{ transform:scale(1) translateY(0);opacity:1; }
+}
+#ftPopupClose{
+  position:absolute;top:12px;right:12px;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+  color:rgba(250,246,238,0.5);font-size:0.8rem;
+  border-radius:6px;padding:3px 10px;cursor:pointer;
+  transition:all 0.15s;font-family:'DM Sans',sans-serif;
+}
+#ftPopupClose:hover{ background:rgba(255,255,255,0.12);color:var(--cream); }
+.ftpop-dynasty-bar{
+  height:3px;border-radius:2px;margin-bottom:18px;
+  background:linear-gradient(90deg,var(--pop-color,#c9a84c),transparent);
+}
+.ftpop-top{ display:flex;align-items:flex-start;gap:14px;margin-bottom:14px; }
+.ftpop-crown{ font-size:1.9rem;line-height:1;flex-shrink:0;margin-top:3px; }
+.ftpop-name{
+  font-family:'Playfair Display',serif;
+  font-size:1.15rem;line-height:1.25;color:var(--cream);margin-bottom:3px;
+}
+.ftpop-reign{ font-size:0.7rem;letter-spacing:0.5px;opacity:0.5;margin-bottom:6px; }
+.ftpop-pill{
+  display:inline-block;font-size:0.57rem;letter-spacing:1.5px;text-transform:uppercase;
+  padding:2px 8px;border-radius:8px;border:1px solid;opacity:0.7;
+}
+.ftpop-note-line{ font-size:0.68rem;font-style:italic;opacity:0.42;margin-top:4px; }
+.ftpop-divider{ height:1px;background:rgba(255,255,255,0.08);margin:14px 0; }
+.ftpop-facts{
+  font-size:0.78rem;line-height:1.8;white-space:pre-line;
+  opacity:0.82;margin-bottom:0;
+}
+.ftpop-succ{
+  margin-top:14px;padding-top:12px;
+  border-top:1px solid rgba(255,255,255,0.07);
+  font-size:0.7rem;font-style:italic;opacity:0.45;line-height:1.55;
+}
+.ftpop-succ b{ font-style:normal;opacity:0.65;font-weight:500; }
+
+/* ═══════════════════════════════════════════
+   HISTORY TIMELINE  — single central spine
+═══════════════════════════════════════════ */
+#timelineView{
+  display:none;width:100%;max-width:860px;
+  position:relative;z-index:1;
+}
+
+/* Legend */
+.tl-legend{
+  display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:center;
+  margin-bottom:18px;padding:10px 16px;
+  background:rgba(0,0,0,0.2);border-radius:10px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+.tl-legend-item{display:flex;align-items:center;gap:5px;font-size:0.68rem;color:rgba(250,246,238,0.55);letter-spacing:0.3px}
+.tl-legend-pip{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+
+/* Era filter */
+.tl-era-filter{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.era-btn{
+  padding:5px 13px;border-radius:14px;border:1px solid rgba(201,168,76,0.22);
+  background:transparent;color:rgba(250,246,238,0.5);font-family:'DM Sans',sans-serif;
+  font-size:0.72rem;cursor:pointer;transition:all 0.18s;
+}
+.era-btn:hover{border-color:var(--gold);color:var(--gold)}
+.era-btn.active{background:rgba(201,168,76,0.14);border-color:var(--gold);color:var(--gold-light);font-weight:600}
+
+/* ── Spine wrapper ── */
+.tl-spine-wrap{
+  position:relative;
+  padding:0 0 40px;
+}
+
+/* The central vertical line */
+.tl-spine{
+  position:absolute;
+  left:50%;transform:translateX(-50%);
+  top:0;bottom:0;width:2px;
+  background:linear-gradient(to bottom,
+    transparent 0%,
+    rgba(201,168,76,0.45) 3%,
+    rgba(201,168,76,0.45) 97%,
+    transparent 100%);
+  z-index:0;
+}
+
+/* ── EVENT ENTRY ── */
+/* Each event row: card on one side, dot+line connecting to spine */
+.tl-event-row{
+  position:relative;z-index:1;
+  display:flex;align-items:flex-start;
+  margin-bottom:10px;
+  min-height:42px;
+}
+
+/* Left-side events: card on left, line extends right to spine */
+.tl-event-row.left{
+  justify-content:flex-start;
+  padding-right:calc(50% + 18px);
+}
+/* Right-side events: card on right, line extends left to spine */
+.tl-event-row.right{
+  justify-content:flex-end;
+  padding-left:calc(50% + 18px);
+}
+
+/* The event card itself */
+.tl-event-card{
+  border-radius:9px;padding:9px 12px;
+  border:1px solid rgba(255,255,255,0.08);
+  position:relative;overflow:hidden;
+  cursor:pointer;transition:border-color 0.16s,box-shadow 0.16s;
+  width:100%;
+}
+.tl-event-card:hover{
+  border-color:rgba(255,255,255,0.2);
+  box-shadow:0 3px 16px rgba(0,0,0,0.35);
+}
+.tl-event-card-bar{
+  position:absolute;top:0;bottom:0;width:3px;
+}
+.tl-event-row.left  .tl-event-card-bar{right:0;border-radius:0 3px 3px 0}
+.tl-event-row.right .tl-event-card-bar{left:0;border-radius:3px 0 0 3px}
+
+.tl-event-year{
+  font-size:0.62rem;font-weight:600;letter-spacing:0.8px;
+  margin-bottom:2px;opacity:0.85;
+}
+.tl-event-type{
+  display:inline-block;font-size:0.55rem;letter-spacing:1px;text-transform:uppercase;
+  padding:1px 6px;border-radius:6px;border:1px solid currentColor;
+  margin-left:5px;vertical-align:middle;opacity:0.65;
+}
+.tl-event-title{
+  font-family:'Playfair Display',serif;
+  font-size:0.84rem;line-height:1.32;margin-bottom:2px;font-weight:700;
+}
+.tl-event-sub{font-size:0.7rem;opacity:0.52;font-style:italic;margin-bottom:4px}
+.tl-event-body{
+  font-size:0.73rem;line-height:1.62;
+  max-height:0;overflow:hidden;opacity:0;
+  transition:max-height 0.35s ease,opacity 0.28s;
+}
+.tl-event-card.open .tl-event-body{max-height:250px;opacity:0.76}
+.tl-event-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.tl-tag{
+  font-size:0.57rem;padding:2px 6px;border-radius:5px;
+  border:1px solid rgba(255,255,255,0.1);
+  color:rgba(250,246,238,0.38);letter-spacing:0.3px;
+}
+
+/* Dot on the spine */
+.tl-event-dot{
+  position:absolute;top:13px;
+  width:10px;height:10px;border-radius:50%;
+  border:2px solid var(--navy);z-index:2;
+  flex-shrink:0;
+}
+.tl-event-row.left  .tl-event-dot{right:calc(50% - 5px - 18px + 18px);right:calc(50% - 5px)}
+.tl-event-row.right .tl-event-dot{left:calc(50% - 5px)}
+
+/* Horizontal connecting line from card to dot */
+.tl-event-hline{
+  position:absolute;top:17px;height:1px;opacity:0.4;
+}
+.tl-event-row.left  .tl-event-hline{right:0;width:calc(50% - 14px)}
+.tl-event-row.right .tl-event-hline{left:0;width:calc(50% - 14px)}
+
+/* Ruler annotation row — monarch + PM side by side */
+.tl-ruler-row{
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;
+  margin-top:7px;padding-top:6px;
+  border-top:1px solid rgba(255,255,255,0.06);
+}
+.tl-ruler-note{
+  font-size:0.59rem;letter-spacing:0.4px;opacity:0.62;
+  font-family:'DM Sans',sans-serif;white-space:nowrap;
+}
+.tl-ruler-divider{
+  width:1px;height:10px;background:rgba(255,255,255,0.15);flex-shrink:0;
+}
+
+/* Era section header label */
+.tl-era-header{
+  position:relative;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  padding:14px 0 8px;
+}
+.tl-era-chip{
+  padding:4px 18px;border-radius:16px;border:1px solid;
+  font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;
+  font-family:'Playfair Display',serif;
+  background:var(--navy);/* sits on spine */
+}
+
+/* Mobile */
+@media(max-width:600px){
+  .tl-event-row.left{ padding-right:0; }
+  .tl-event-row.right{ padding-left:0; justify-content:flex-start; }
+  .tl-event-row.left .tl-event-hline,
+  .tl-event-row.right .tl-event-hline{ display:none; }
+  .tl-event-dot{ display:none; }
+  .tl-spine{ left:6px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="crown">♛</span>
+  <h1>Life in the <em>United Kingdom</em></h1>
+  <p class="subtitle">Revision Flashcards</p>
+</header>
+
+<div class="mode-tabs">
+  <button class="mode-tab active" onclick="setMode('cards')">📇 Flashcards</button>
+  <button class="mode-tab" onclick="setMode('monarchs')">👑 Monarchs</button>
+  <button class="mode-tab" onclick="setMode('timeline')">📜 History Timeline</button>
+  <button class="mode-tab" onclick="setMode('people')">🔬 Notable Britons</button>
+  <button class="mode-tab" onclick="setMode('law')">⚖️ UK Law</button>
+</div>
+
+<!-- ══════════ FLASHCARDS ══════════ -->
+<div id="cardsView" style="display:flex;flex-direction:column;align-items:center;width:100%">
+  <div class="tabs" id="tabs"></div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <p class="progress-text" id="progressText"></p>
+  <div class="mc-card" id="mcCard">
+    <div class="mc-meta">
+      <span class="mc-category" id="mcCategory"></span>
+      <span class="mc-counter" id="mcCounter"></span>
+    </div>
+    <p class="mc-question" id="mcQuestion"></p>
+    <div class="mc-options" id="mcOptions"></div>
+    <div class="mc-hint" id="mcHint"></div>
+  </div>
+  <div class="controls" style="margin-top:18px">
+    <button class="btn btn-nav" onclick="prevCard()">← Prev</button>
+    <button class="btn btn-shuffle" onclick="shuffleCards()">⇌ Shuffle</button>
+    <button class="btn btn-nav" onclick="nextCard()">Next →</button>
+  </div>
+  <div class="dots" id="dots"></div>
+</div>
+
+<!-- ══════════ MONARCHS FAMILY TREE ══════════ -->
+<div id="monarchsView" style="display:none;width:100%;max-width:1260px;position:relative;z-index:1">
+
+  <!-- Legend -->
+  <div id="ftLegend"></div>
+
+  <!-- Tree + side timeline -->
+  <div id="ftMain">
+    <div id="ftTreeWrap">
+      <div id="ftDynastyRow"></div>
+    </div>
+    <div id="ftTimeline">
+      <div class="ft-tl-head">Reign Timeline</div>
+      <div id="ftTimelineItems"></div>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP OVERLAY (outside monarchsView so it can use fixed positioning) -->
+<div id="ftPopupOverlay" onclick="if(event.target===this)closeFTPopup()">
+  <div id="ftPopup">
+    <button id="ftPopupClose" onclick="closeFTPopup()">✕ close</button>
+    <div id="ftPopupContent"></div>
+  </div>
+</div>
+
+<!-- ══════════ HISTORY TIMELINE ══════════ -->
+<div id="timelineView">
+  <!-- Legend -->
+  <div class="tl-legend">
+    <div class="tl-legend-item"><div class="tl-legend-pip" style="background:var(--c-war)"></div>War / Conflict</div>
+    <div class="tl-legend-item"><div class="tl-legend-pip" style="background:var(--c-reform)"></div>Reform / Rights</div>
+    <div class="tl-legend-item"><div class="tl-legend-pip" style="background:var(--c-event)"></div>Key Event</div>
+    <div class="tl-legend-item"><div class="tl-legend-pip" style="background:var(--c-law)"></div>Law / Charter</div>
+    <div class="tl-legend-item" style="margin-left:6px;padding-left:10px;border-left:1px solid rgba(255,255,255,0.1)">
+      <span style="font-size:0.63rem;opacity:0.45;font-style:italic">Click events to expand</span>
+    </div>
+  </div>
+  <!-- Era filters -->
+  <div class="tl-era-filter" style="margin-bottom:24px">
+    <button class="era-btn active" onclick="filterEra(this,'all')">All Eras</button>
+    <button class="era-btn" onclick="filterEra(this,'ancient')">Ancient &amp; Roman</button>
+    <button class="era-btn" onclick="filterEra(this,'medieval')">Medieval</button>
+    <button class="era-btn" onclick="filterEra(this,'tudor')">Tudor</button>
+    <button class="era-btn" onclick="filterEra(this,'stuart')">Stuart</button>
+    <button class="era-btn" onclick="filterEra(this,'georgian')">Georgian</button>
+    <button class="era-btn" onclick="filterEra(this,'victorian')">Victorian</button>
+    <button class="era-btn" onclick="filterEra(this,'modern')">Modern</button>
+  </div>
+  <!-- Single spine with all entries -->
+  <div class="tl-spine-wrap">
+    <div class="tl-spine"></div>
+    <div id="tlContent"></div>
+  </div>
+</div>
+
+<!-- ══════════ NOTABLE BRITONS ══════════ -->
+<div id="peopleView" style="display:none;width:100%;max-width:1000px;position:relative;z-index:1">
+  <div class="tl-legend" style="margin-bottom:16px">
+    <div class="tl-legend-item"><div class="tl-legend-pip" style="background:var(--c-science)"></div>Science &amp; Invention</div>
+    <div class="tl-legend-item"><div class="tl-legend-pip" style="background:var(--c-art)"></div>Arts &amp; Literature</div>
+    <div class="tl-legend-item"><div class="tl-legend-pip" style="background:var(--c-sport)"></div>Sport</div>
+    <div class="tl-legend-item"><div class="tl-legend-pip" style="background:var(--c-politics)"></div>Politics &amp; Society</div>
+    <div class="tl-legend-item" style="margin-left:8px;padding-left:8px;border-left:1px solid rgba(255,255,255,0.1)">
+      <span style="font-size:0.65rem;opacity:0.5;font-style:italic">Click any card to expand</span>
+    </div>
+  </div>
+  <div class="tl-era-filter" id="peopleCats" style="margin-bottom:20px"></div>
+  <div id="peopleGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px"></div>
+</div>
+
+<!-- ══════════ UK LAW ══════════ -->
+<div id="lawView" style="display:none;width:100%;max-width:1040px;position:relative;z-index:1">
+  <div class="tl-era-filter" id="lawTabs" style="margin-bottom:24px"></div>
+  <div id="lawContent"></div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════
+   FLASHCARD DATA
+═══════════════════════════════════════ */
+const ALL_CARDS=[
+  /* ── VALUES ── */
+  {cat:"Values",q:"What are the fundamental principles of British life?",
+   options:["Democracy, rule of law, individual liberty, tolerance and respect","Monarchy, tradition, class structure and strong defence","Free market, private property, limited government, low taxation","Christianity, Parliament, common law and free press"],correct:0,
+   hint:"Listed in the handbook as core British values"},
+  {cat:"Values",q:"What is expected of people settling permanently in the UK?",
+   options:["Speak only English and attend church regularly","Respect and obey UK law, treat others fairly, be a good neighbour","Pass an English language test every five years","Register with local police within 30 days of arrival"],correct:1,
+   hint:"Chapter 1 of the handbook"},
+  {cat:"Values",q:"What languages are spoken in the UK other than English?",
+   options:["Irish and Scots","Welsh and Gaelic","Cornish and Manx","Welsh and Irish"],correct:1,
+   hint:"Both have official status in their respective regions"},
+  {cat:"Values",q:"What does the rule of law mean in the UK?",
+   options:["Parliament can override court decisions at any time","Laws only apply to ordinary citizens, not ministers","Everyone — including the government — must obey the law","The monarch signs every law personally before it applies"],correct:2,
+   hint:"A cornerstone of British democracy since Magna Carta"},
+  {cat:"Values",q:"What is parliamentary sovereignty?",
+   options:["The Prime Minister has final say over all legislation","Parliament is the supreme legal authority and can make or abolish any law","The monarch must approve all bills before they become law","Courts can strike down Acts of Parliament they deem unfair"],correct:1,
+   hint:"A key principle of the UK constitution"},
+  {cat:"Values",q:"What rights does the Human Rights Act 1998 protect?",
+   options:["Right to bear arms, right to silence, right to a lawyer","Right to life, fair trial, privacy, freedom of religion and expression","Right to free housing, free education and free healthcare","Right to vote, right to stand for election, right to protest"],correct:1,
+   hint:"Incorporates the European Convention on Human Rights"},
+  {cat:"Values",q:"What is the principle of individual liberty in the UK?",
+   options:["People may do anything, even if it harms others","Freedom exists only within the Church of England's moral framework","People are free to do anything not forbidden by law","Liberty is granted by the monarch and can be withdrawn"],correct:2,
+   hint:"One of the fundamental British values"},
+  {cat:"Values",q:"What is tolerance and respect in British values?",
+   options:["Respect for people of all faiths, backgrounds and beliefs — discrimination is illegal","Respecting authority and not questioning government decisions","Tolerating different political parties but not different religions","Respecting those who are British-born above all others"],correct:0,
+   hint:"Protected by the Equality Act 2010"},
+  {cat:"Values",q:"What is the role of the voluntary sector in the UK?",
+   options:["It is funded entirely by the government to provide public services","Charities and community groups provide services and support; over 160,000 charities in England & Wales","It replaces the NHS in rural areas where hospitals are scarce","Voluntary organisations are overseen directly by the Prime Minister"],correct:1,
+   hint:"Volunteering is part of active citizenship"},
+  {cat:"Values",q:"What is freedom of the press in the UK?",
+   options:["All newspapers must publish government-approved content","TV and radio must be impartial; newspapers are not required to be","Newspapers are owned by the government and are politically neutral","Press freedom is limited to reporting on Parliament only"],correct:1,
+   hint:"IPSO regulates most newspapers"},
+
+  /* ── HISTORY ── */
+  {cat:"History",q:"When did the Romans first invade Britain?",
+   options:["AD 43 under Emperor Claudius","55 BC under Julius Caesar (first expedition)","122 AD under Emperor Hadrian","410 AD when Rome fell"],correct:1,
+   hint:"Permanent settlement began in AD 43; Caesar's expeditions were in 55–54 BC"},
+  {cat:"History",q:"What is Hadrian's Wall?",
+   options:["A sea wall built to defend London from Viking raids","A wall built from AD 122 across northern England, from Carlisle to Newcastle","A Roman road connecting York to Edinburgh","A wall built to keep the Welsh from entering England"],correct:1,
+   hint:"73 miles long"},
+  {cat:"History",q:"What is the Domesday Book?",
+   options:["A list of laws introduced by William the Conqueror in 1066","A survey ordered by William I in 1086 recording land, people and livestock for taxation","A book of church records listing all baptisms and deaths","A medieval encyclopaedia written by monks at Canterbury"],correct:1,
+   hint:"An extraordinary early administrative document"},
+  {cat:"History",q:"What is Magna Carta?",
+   options:["A 1215 charter establishing that the king was subject to the rule of law","A 1066 peace treaty between William I and the English barons","A document granting women the right to vote in 1215","A list of rights granted by Parliament to the monarchy in 1689"],correct:0,
+   hint:"'Great Charter' in Latin — signed by King John"},
+  {cat:"History",q:"When was the Black Death and how many died?",
+   options:["1215 — killed about half the population","1348 — killed about a third of England's population","1066 — killed about a quarter of the population","1415 — killed about a fifth of Europe's population"],correct:1,
+   hint:"Bubonic plague from Asia"},
+  {cat:"History",q:"Who was the first Tudor monarch?",
+   options:["Henry VIII, who broke with Rome in 1534","Edward IV, who won the Battle of Bosworth","Henry VII, who defeated Richard III at Bosworth Field in 1485","Richard III, the last Plantagenet king"],correct:2,
+   hint:"He united Lancaster and York by marrying Elizabeth of York"},
+  {cat:"History",q:"What was the English Reformation?",
+   options:["A 16th-century movement to translate the Bible into English","Henry VIII's break with Rome in the 1530s, creating the Church of England","A series of laws passed under Elizabeth I to restore Catholicism","The dissolution of Parliament by Henry VIII in 1529"],correct:1,
+   hint:"Triggered by Henry's desire to annul his marriage to Catherine of Aragon"},
+  {cat:"History",q:"What happened in 1588 under Elizabeth I?",
+   options:["Elizabeth I signed the Act of Supremacy","England defeated the Spanish Armada sent by Philip II of Spain","The first English colony was founded in America","The Globe Theatre was built by William Shakespeare"],correct:1,
+   hint:"Drake was vice-admiral of the English fleet"},
+  {cat:"History",q:"What was the English Civil War?",
+   options:["A war between England and Scotland from 1639 to 1651","A conflict from 1642 between Royalists and Parliamentarians; Charles I was executed in 1649","A war between Catholics and Protestants fought under Mary I","A rebellion by the barons against King John in 1215"],correct:1,
+   hint:"First time a reigning English monarch was publicly executed"},
+  {cat:"History",q:"What was the Glorious Revolution?",
+   options:["The peaceful 1688 replacement of James II by William of Orange, leading to the Bill of Rights 1689","A revolution in France that influenced British politics in 1789","The Chartist uprising of 1848 demanding votes for all men","The reform of Parliament by the Great Reform Act of 1832"],correct:0,
+   hint:"Called 'Glorious' because it was peaceful"},
+  {cat:"History",q:"When did the Act of Union create Great Britain?",
+   options:["1603 — when James VI of Scotland became James I of England","1707 — when England and Scotland united as the Kingdom of Great Britain","1800 — when Ireland joined to form the United Kingdom","1832 — with the Great Reform Act"],correct:1,
+   hint:"A second Act of Union in 1800 added Ireland"},
+  {cat:"History",q:"What did the Great Reform Act of 1832 do?",
+   options:["It gave all men and women over 21 the right to vote","It abolished the slave trade throughout the British Empire","It widened the right to vote and abolished rotten boroughs","It created the National Health Service"],correct:2,
+   hint:"A key step towards modern democracy"},
+  {cat:"History",q:"When was slavery abolished across the British Empire?",
+   options:["1807 — the Slave Trade Act abolished the slave trade","1833 — the Slavery Abolition Act abolished slavery throughout the Empire","1865 — following the American Civil War","1918 — as a condition of the peace treaties after WWI"],correct:1,
+   hint:"William Wilberforce was the leading abolitionist"},
+  {cat:"History",q:"When did women first gain the right to vote in the UK?",
+   options:["1884 — with the Representation of the People Act","1900 — when Queen Victoria died","1918 (women over 30) and 1928 (all women over 21)","1945 — after women's wartime contribution"],correct:2,
+   hint:"The Suffragette movement campaigned for this"},
+  {cat:"History",q:"Who was the first female Prime Minister?",
+   options:["Theresa May, elected in 2016","Barbara Castle, who served under Harold Wilson","Margaret Thatcher, elected 1979, served until 1990","Harriet Harman, who briefly led the Labour Party"],correct:2,
+   hint:"Known as 'The Iron Lady'"},
+  {cat:"History",q:"Who was Boudica?",
+   options:["A Roman empress who ruled Britain from AD 43","Queen of the Iceni who led a revolt against Rome around AD 60","A Celtic goddess worshipped in pre-Roman Britain","The first Queen of England, who ruled in the 5th century"],correct:1,
+   hint:"She burned Londinium, Verulamium and Camulodunum"},
+  {cat:"History",q:"What were the Wars of the Roses?",
+   options:["Wars between England and France over the French throne (1337–1453)","Civil wars between Lancaster (red rose) and York (white rose) ending in 1485","A religious conflict between Catholics and Protestants under Mary I","Border wars between England and Scotland in the 14th century"],correct:1,
+   hint:"Ended when Henry VII founded the Tudor dynasty"},
+  {cat:"History",q:"What was the Gunpowder Plot?",
+   options:["An 1815 Catholic plot to assassinate the Duke of Wellington","A 1605 plot to blow up Parliament and kill James I, discovered on 5 November","A failed attempt by Oliver Cromwell to blow up the House of Lords in 1649","A 1688 Protestant plot to remove the Catholic King James II"],correct:1,
+   hint:"Guy Fawkes was found guarding the gunpowder"},
+  {cat:"History",q:"What was the Jacobite Rising of 1745?",
+   options:["A Scottish rebellion against the Acts of Union (1707)","An Irish uprising against British rule, crushed at the Battle of Boyne","Bonnie Prince Charlie's failed attempt to reclaim the throne, ending at Culloden 1746","A Welsh revolt against English taxation under George II"],correct:2,
+   hint:"The last pitched battle on British soil was at Culloden"},
+  {cat:"History",q:"What were the Chartists?",
+   options:["A group of Victorian artists who campaigned for public art galleries","A working-class movement demanding electoral reform, including votes for all men","A religious movement campaigning to establish the Church of England","Supporters of free trade who opposed the Corn Laws"],correct:1,
+   hint:"Most of their six demands were eventually granted"},
+  {cat:"History",q:"What was the suffragette movement?",
+   options:["A campaign for equal pay for women in the 1970s","A Victorian movement demanding equal inheritance rights for women","A campaign for women's right to vote, led by Emmeline Pankhurst and the WSPU","A movement to allow women to stand for Parliament, founded in 1900"],correct:2,
+   hint:"Women over 30 got the vote in 1918; equal rights in 1928"},
+  {cat:"History",q:"What happened on 4 August 1914?",
+   options:["Britain declared war on Germany, entering World War I","Archduke Franz Ferdinand was assassinated in Sarajevo","The Battle of the Somme began","Britain signed the Treaty of Versailles"],correct:0,
+   hint:"Over 700,000 British soldiers were killed"},
+  {cat:"History",q:"What was the Blitz?",
+   options:["The British bombing of German cities in 1943–44","The German U-boat campaign against Atlantic shipping from 1940","The sustained German bombing of British cities from September 1940 to May 1941","The evacuation of British troops from Dunkirk in 1940"],correct:2,
+   hint:"George VI and Queen Elizabeth stayed in London throughout"},
+  {cat:"History",q:"When did India gain independence?",
+   options:["15 August 1947, under PM Clement Attlee","1 January 1948, under PM Winston Churchill","26 January 1950, when India became a republic","15 August 1945, on VJ Day at the end of WWII"],correct:0,
+   hint:"Pakistan was also created at the same time"},
+  {cat:"History",q:"What was the Good Friday Agreement?",
+   options:["A 1985 treaty ending the Falklands War","A 1998 peace agreement ending the Troubles in Northern Ireland","A 2003 agreement on Scottish devolution","A 1994 ceasefire between the IRA and the British Army"],correct:1,
+   hint:"Also known as the Belfast Agreement"},
+  {cat:"History",q:"What was the Battle of Agincourt?",
+   options:["A 1066 battle where Harold II defeated a Viking invasion","A 1415 battle where Henry V's smaller army defeated a much larger French force","A 1588 naval battle where England defeated the Spanish Armada","A 1314 battle where Robert the Bruce defeated Edward II at Bannockburn"],correct:1,
+   hint:"Shakespeare immortalised it in Henry V"},
+
+  /* ── GOVERNMENT ── */
+  {cat:"Government",q:"What type of government does the UK have?",
+   options:["A federal republic with an elected president","A constitutional monarchy and parliamentary democracy","A direct democracy where citizens vote on every law","An absolute monarchy where the King has final authority"],correct:1,
+   hint:"The monarch is head of state; political power rests with elected Parliament"},
+  {cat:"Government",q:"What are the two Houses of Parliament?",
+   options:["The Senate and the House of Representatives","The House of Commons and the House of Lords","The Lower House and the Upper Chamber","The National Assembly and the Senate"],correct:1,
+   hint:"Parliament sits at the Palace of Westminster"},
+  {cat:"Government",q:"What is the role of the Prime Minister?",
+   options:["To represent the UK to foreign governments only","To advise the monarch on constitutional matters","To lead the government, appoint ministers, oversee policy and live at 10 Downing Street","To chair debates in the House of Commons"],correct:2,
+   hint:"Usually the leader of the party with the most MPs"},
+  {cat:"Government",q:"How often are UK General Elections held?",
+   options:["Every three years","Every four years","Every five years","Every seven years"],correct:2,
+   hint:"Elections can be called earlier in some circumstances"},
+  {cat:"Government",q:"What is devolution?",
+   options:["The return of powers from the EU to the UK after Brexit","The transfer of some powers from Westminster to Scotland, Wales and Northern Ireland","The abolition of the House of Lords in 1999","Giving local councils the power to raise their own taxes"],correct:1,
+   hint:"Scottish Parliament established 1999"},
+  {cat:"Government",q:"What is the Supreme Court?",
+   options:["A court that advises the monarch on constitutional matters","The highest court in the UK, established 2009, which replaced the Law Lords","A court that only hears cases involving government ministers","The highest criminal court in England and Wales"],correct:1,
+   hint:"Below it: Court of Appeal, High Court"},
+  {cat:"Government",q:"What is the role of the House of Lords?",
+   options:["To elect the Prime Minister on behalf of the public","To review and can amend or delay (but not permanently block) Commons legislation","To control government spending and taxation","To appoint the Cabinet ministers"],correct:1,
+   hint:"The Parliament Acts limit the Lords' ability to delay"},
+  {cat:"Government",q:"Who is the head of state of the UK?",
+   options:["The Prime Minister","The Lord Chancellor","The Speaker of the House of Commons","The monarch — currently King Charles III"],correct:3,
+   hint:"The PM is head of government, not head of state"},
+  {cat:"Government",q:"What is a by-election?",
+   options:["An election held every two years for half of all seats","A second election held when no party wins a majority","An election held in one constituency to fill a vacancy between general elections","A vote held in the Lords to elect hereditary peers"],correct:2,
+   hint:"Caused by death or resignation of an MP"},
+  {cat:"Government",q:"How is the Prime Minister chosen?",
+   options:["Directly elected by the public in a separate national vote","Appointed by the monarch based on personal preference","The leader of the party that can command a Commons majority is invited by the monarch","Elected by MPs in a secret ballot of all Members of Parliament"],correct:2,
+   hint:"There is no direct public vote for PM"},
+  {cat:"Government",q:"What is the first-past-the-post voting system?",
+   options:["Voters rank candidates; lowest-scoring candidates are eliminated in rounds","Each party gets seats proportional to its share of the national vote","The candidate with the most votes in a constituency wins, even without a majority","Voters choose a party, and the party allocates seats to its candidates"],correct:2,
+   hint:"Used in UK General Elections"},
+  {cat:"Government",q:"What is the role of the Speaker of the House of Commons?",
+   options:["To represent the Commons in the House of Lords","To lead the government's legislation through Parliament","To chair Commons debates, keep order and call MPs to speak — must be politically neutral","To advise the monarch on when to dissolve Parliament"],correct:2,
+   hint:"Gives up party membership on election as Speaker"},
+  {cat:"Government",q:"What is Prime Minister's Questions (PMQs)?",
+   options:["A monthly written question session answered by government departments","A weekly Wednesday session where the PM answers MPs' questions in the Commons","A quarterly debate where the PM justifies the Budget","An annual interview broadcast on the BBC"],correct:1,
+   hint:"Lasts around 30 minutes"},
+  {cat:"Government",q:"What is the Cabinet?",
+   options:["The civil servants who implement government policy day-to-day","The senior committee of government ministers headed by the PM, which makes key policy decisions","The committee of judges who advise the government on legal matters","The permanent secretaries of all government departments"],correct:1,
+   hint:"Cabinet members are bound by collective responsibility"},
+  {cat:"Government",q:"What are the three branches of government?",
+   options:["Monarchy, Parliament and Church","Federal, regional and local government","Legislature (Parliament), Executive (Government) and Judiciary (courts)","Cabinet, Civil Service and the Privy Council"],correct:2,
+   hint:"Called 'separation of powers'"},
+  {cat:"Government",q:"What is judicial review?",
+   options:["The process by which the Supreme Court appoints new judges","A legal process allowing courts to examine whether a public body's decision was lawful","An annual review of all court judgments by the Lord Chancellor","The power of Parliament to overturn court decisions it disagrees with"],correct:1,
+   hint:"Part of the rule of law principle"},
+  {cat:"Government",q:"What is the Civil Service?",
+   options:["Elected local government officials who run councils","The permanent, politically neutral officials who implement government policy and advise ministers","Military officers who advise the Cabinet on defence matters","Members of Parliament who vote with the government on legislation"],correct:1,
+   hint:"Civil servants remain in post when governments change"},
+  {cat:"Government",q:"What is the Crown Prosecution Service?",
+   options:["The royal household's legal team, which defends the monarchy in court","The body that decides whether to charge and prosecute people arrested by the police in England & Wales","The department responsible for drafting new legislation","The office that handles immigration and citizenship applications"],correct:1,
+   hint:"Independent of both the police and the government"},
+  {cat:"Government",q:"What is the Monarch's role in Parliament?",
+   options:["The monarch proposes new laws and has the right to veto them","The monarch opens Parliament, delivers the King's Speech and grants Royal Assent — all on ministers' advice","The monarch chairs the House of Lords in person","The monarch appoints all members of the House of Lords personally"],correct:1,
+   hint:"'King in Parliament' is the supreme legislative authority"},
+
+  /* ── SOCIETY ── */
+  {cat:"Society",q:"What are the four countries of the UK?",
+   options:["England, Scotland, Wales and the Republic of Ireland","England, Scotland, Wales and Northern Ireland","Britain, Scotland, Wales and Ulster","England, Scotland, Wales and Eire"],correct:1,
+   hint:"Great Britain = England, Scotland and Wales only"},
+  {cat:"Society",q:"What are the capitals of the UK nations?",
+   options:["London, Glasgow, Swansea, Londonderry","London, Edinburgh, Cardiff, Belfast","London, Edinburgh, Cardiff, Dublin","London, Aberdeen, Cardiff, Belfast"],correct:1,
+   hint:"Glasgow is Scotland's largest city but Edinburgh is the capital"},
+  {cat:"Society",q:"Who are the patron saints of the UK nations?",
+   options:["St George, St Patrick, St David, St Columba","St George, St Andrew, St David, St Patrick","St Edward, St Andrew, St David, St Patrick","St George, St Andrew, St Bridget, St Patrick"],correct:1,
+   hint:"St George: 23 Apr · St Andrew: 30 Nov · St David: 1 Mar · St Patrick: 17 Mar"},
+  {cat:"Society",q:"What is the BBC?",
+   options:["A private broadcaster owned by a newspaper group","The British Broadcasting Corporation — a public broadcaster funded by the TV licence fee, founded 1927","A government ministry responsible for TV broadcasting","A commercial broadcaster that also runs BBC Radio"],correct:1,
+   hint:"Politically independent"},
+  {cat:"Society",q:"What are the most popular sports in the UK?",
+   options:["Rugby, cricket, golf and horse racing","Cycling, swimming, tennis and athletics","Football (most popular), cricket, rugby, tennis and golf","Football, darts, snooker and boxing"],correct:2,
+   hint:"Football rules were codified in England in 1863"},
+  {cat:"Society",q:"What are the national flowers of the UK nations?",
+   options:["Rose, thistle, daffodil, shamrock","Tudor rose, thistle, daffodil (or leek), flax (or shamrock)","Red rose, bluebell, leek, clover","Rose, heather, dragon flower, clover"],correct:1,
+   hint:"The thistle has been Scotland's symbol since the 13th century"},
+  {cat:"Society",q:"What is the Union Flag?",
+   options:["A flag combining the crosses of St George, St Andrew and St David","A flag combining the crosses of St George, St Andrew and St Patrick","A flag showing the four nations' symbols — rose, thistle, daffodil and shamrock","A flag adopted in 1945 to represent the United Kingdom after WWII"],correct:1,
+   hint:"Wales is not separately represented — 'Union Jack' technically refers to it on a ship"},
+  {cat:"Society",q:"What is the Church of England?",
+   options:["An independent church founded by Protestant reformers in 1517","The established church in England, founded when Henry VIII broke with Rome; the monarch is its Supreme Governor","A Nonconformist church that separated from Rome under Edward VI","A voluntary association of Anglican churches worldwide"],correct:1,
+   hint:"The Archbishop of Canterbury is its spiritual leader"},
+  {cat:"Society",q:"What is the significance of Remembrance Day?",
+   options:["A day to celebrate the founding of the NHS on 11 November 1918","11 November — commemorates those who died in wars; a two-minute silence at 11am; the poppy is the symbol","A bank holiday celebrating the end of WWII on VE Day","A day to celebrate the signing of the Magna Carta"],correct:1,
+   hint:"The first Armistice Day was 11 November 1918"},
+  {cat:"Society",q:"What is the system of education in England?",
+   options:["Primary (4–12), secondary (12–18), with free university tuition","Primary (5–11), secondary (11–16/18); school compulsory to 16; GCSEs at 16, A-levels at 18","Schooling from 3–18 with no formal exams until university","Primary (5–11), secondary (11–14), then optional college from 14"],correct:1,
+   hint:"Scotland uses National 5s and Highers instead of GCSEs and A-levels"},
+  {cat:"Society",q:"What is the census?",
+   options:["An annual survey of government spending sent to all households","A survey of every household taken every 10 years to count the population","A register of property ownership updated every five years","A monthly survey of unemployment figures by the ONS"],correct:1,
+   hint:"The most recent UK census was in 2021"},
+  {cat:"Society",q:"What role does the UK play in international organisations?",
+   options:["The UK is a member of the EU, NATO, UN Security Council and G7","The UK is a permanent UN Security Council member, member of NATO, G7 and G20","The UK is a member of the EU, G7 and the African Union","The UK is only a member of NATO and the Commonwealth"],correct:1,
+   hint:"The UK left the EU in 2020 (Brexit)"},
+  {cat:"Society",q:"What is the welfare state?",
+   options:["A system of private insurance that the government requires all citizens to buy","A government-provided system including the NHS, state pension, unemployment support and housing benefit","A programme run by charities to house homeless people","A Victorian system of workhouses for the poor"],correct:1,
+   hint:"Based on the Beveridge Report (1942), established by Attlee's government after WWII"},
+  {cat:"Society",q:"What are the major religions in the UK?",
+   options:["Christianity only — over 90% of the population","Christianity (largest), with Islam, Hinduism, Sikhism, Judaism, Buddhism; about 37% non-religious","Islam and Christianity in roughly equal proportions","Christianity and Islam — other religions are very small minorities"],correct:1,
+   hint:"Christianity was 59% in the 2021 census"},
+  {cat:"Society",q:"What is the Proms?",
+   options:["A national school graduation ceremony held every summer","The BBC Proms — an annual classical music festival at the Royal Albert Hall with a famous patriotic Last Night","An annual outdoor music festival held in Hyde Park","A series of classical concerts broadcast on BBC Radio 3 every winter"],correct:1,
+   hint:"Runs for about 8 weeks every summer"},
+  {cat:"Society",q:"What is the minimum wage in the UK?",
+   options:["A fixed rate of £10 per hour for all workers over 16","The National Living Wage applies to workers aged 21+, set annually by the government","A rate set by each local council based on the cost of living","A minimum of £8 per hour for all workers, set by the EU"],correct:1,
+   hint:"Introduced 1998 as the National Minimum Wage"},
+  {cat:"Society",q:"What is the NHS Constitution?",
+   options:["The founding charter of the NHS signed by Aneurin Bevan in 1948","A document setting out rights and responsibilities of patients and staff — free care based on clinical need, not ability to pay","A list of treatments the NHS is legally required to provide","A charter signed by all doctors and nurses when they qualify"],correct:1,
+   hint:"Established 2009"},
+
+  /* ── CITIZENSHIP ── */
+  {cat:"Citizenship",q:"What is the Life in the UK test?",
+   options:["A test of English language skills required for a work visa","A test of knowledge about British history, culture and values — 24 questions, 75% pass mark","A test required to become a British passport holder after 10 years","An interview with a Home Office official about British customs"],correct:1,
+   hint:"18 out of 24 correct answers needed"},
+  {cat:"Citizenship",q:"At what age can you vote in a UK General Election?",
+   options:["16","17","18 (16 in Scottish and Welsh devolved elections)","21"],correct:2,
+   hint:"Must be registered to vote"},
+  {cat:"Citizenship",q:"What is jury service?",
+   options:["An optional role for retired professionals to advise judges","A paid job for legal graduates working in Crown Courts","A civic duty requiring eligible adults (18–75) to determine the verdict in criminal trials","A voluntary role helping magistrates with paperwork in Magistrates' Courts"],correct:2,
+   hint:"Can be fined for failing to attend without good reason"},
+  {cat:"Citizenship",q:"What are National Insurance contributions used for?",
+   options:["To fund road building, schools and the police","To fund the NHS, state pension and unemployment support","To pay MPs' salaries and maintain Parliament","To fund the armed forces and foreign aid"],correct:1,
+   hint:"You receive a National Insurance number at age 16"},
+  {cat:"Citizenship",q:"What is the NHS?",
+   options:["A private insurance scheme for low-income households","The National Health Service — founded 1948 by Aneurin Bevan, providing free healthcare at the point of use","A charity providing emergency healthcare to those who cannot afford it","A government scheme that subsidises private healthcare costs"],correct:1,
+   hint:""},
+  {cat:"Citizenship",q:"How long must you have lived in the UK to apply for naturalisation?",
+   options:["3 years of lawful residence","5 years of lawful residence with no more than 450 days outside the UK","7 years, with no criminal convictions","10 years, including 5 years of settled status"],correct:1,
+   hint:"Commonwealth citizens and spouses of British citizens may qualify earlier"},
+  {cat:"Citizenship",q:"What are the benefits of British citizenship?",
+   options:["Right to live in the UK, apply for a British passport, vote in all elections, and pass citizenship to children","Right to free university education, free NHS treatment and guaranteed housing","Right to a British passport only — all other rights are the same as permanent residence","Right to work in the EU, vote in UK elections and access free childcare"],correct:0,
+   hint:"ILR is permanent residence but not full citizenship"},
+  {cat:"Citizenship",q:"What do new citizens promise at a citizenship ceremony?",
+   options:["To pay taxes, learn English and never leave the UK for more than 6 months","An Oath of Allegiance to the King and a Pledge to uphold UK rights, freedoms and values","To serve in the armed forces if required and to report crimes","To renounce all previous nationalities and swear loyalty to the British people"],correct:1,
+   hint:"Ceremonies are held at local council offices"},
+  {cat:"Citizenship",q:"What is the electoral register?",
+   options:["A published list of all MPs and their majority","A list of eligible voters — you must register before elections; legal requirement to register (not to vote)","A register of all political parties approved to stand in elections","A list maintained by the Electoral Commission of all polling stations"],correct:1,
+   hint:"You can register online at gov.uk"},
+  {cat:"Citizenship",q:"What taxes do people in the UK pay?",
+   options:["Only income tax and council tax","Income tax, National Insurance, VAT, council tax and stamp duty are the main taxes","VAT and National Insurance only — income tax is optional","Income tax, wealth tax, exit tax and a licence fee"],correct:1,
+   hint:"Tax is collected by HMRC"},
+  {cat:"Citizenship",q:"What is the state pension age in the UK?",
+   options:["60 for women, 65 for men","65 for both men and women","Currently 66 for both men and women, rising to 67 by 2028","70 for both, requiring 40 qualifying National Insurance years"],correct:2,
+   hint:"You need 35 qualifying NI years for the full new State Pension"},
+  {cat:"Citizenship",q:"What is the Freedom of Information Act?",
+   options:["A law giving journalists the right to attend all government meetings","The Freedom of Information Act 2000 — gives the public the right to request information held by public bodies","A law guaranteeing freedom of the press from government interference","An act protecting individuals' personal data held by companies"],correct:1,
+   hint:"Requests must generally be answered within 20 working days"},
+  {cat:"Citizenship",q:"What is the difference between ILR and British citizenship?",
+   options:["There is no practical difference — both give equal rights","ILR allows permanent residence but not a British passport or right to vote in General Elections","ILR gives all citizenship rights except the right to stand for Parliament","ILR is a temporary status; citizenship is only granted after 10 years of ILR"],correct:1,
+   hint:"ILR is usually a step towards citizenship"},
+];
+
+
+/* ═══════════════════════════════════════
+   MONARCH DATA
+═══════════════════════════════════════ */
+const MONARCHS=[
+  {name:"William I (Conqueror)",reign:"1066–1087",house:"Norman",houseColor:"#c8894a",
+   facts:"• Won Battle of Hastings (1066), defeating King Harold II\n• Commissioned the Domesday Book (1086) — first comprehensive survey of England\n• Introduced Norman French; transformed English culture, law and feudal structure",
+   succession:"Son of Duke Robert I of Normandy. Succeeded by son William II."},
+  {name:"William II",reign:"1087–1100",house:"Norman",houseColor:"#c8894a",
+   facts:"• Son of William I; nicknamed 'Rufus' for his red face\n• Died in a mysterious hunting accident — possibly murdered\n• No children; succeeded by younger brother Henry",
+   succession:"Son of William I. Succeeded by brother Henry I."},
+  {name:"Henry I",reign:"1100–1135",house:"Norman",houseColor:"#c8894a",
+   facts:"• Issued Charter of Liberties limiting royal power — forerunner of Magna Carta\n• Only legitimate son drowned in the White Ship disaster (1120)\n• Designated daughter Empress Matilda as heir, triggering civil war",
+   succession:"Son of William I. Nephew Stephen seized throne, causing 'The Anarchy'."},
+  {name:"Henry II",reign:"1154–1189",house:"Plantagenet",houseColor:"#7b5ea7",
+   facts:"• First Plantagenet king; restored order after civil war\n• Archbishop Thomas Becket murdered in Canterbury Cathedral (1170) after Henry's outburst\n• Introduced sweeping legal reforms — foundation of English common law",
+   succession:"Grandson of Henry I. Succeeded by son Richard I."},
+  {name:"Richard I (Lionheart)",reign:"1189–1199",house:"Plantagenet",houseColor:"#7b5ea7",
+   facts:"• Spent almost his entire reign abroad on the Third Crusade\n• Captured by Duke Leopold of Austria; England paid a huge ransom\n• Spoke little English; spent fewer than 6 months in England",
+   succession:"Son of Henry II. Succeeded by brother King John."},
+  {name:"King John",reign:"1199–1216",house:"Plantagenet",houseColor:"#7b5ea7",
+   facts:"• Lost most of England's French territories — nicknamed 'Softsword'\n• Forced to sign Magna Carta (1215) by rebellious barons\n• His reign triggered the First Barons' War",
+   succession:"Son of Henry II. Succeeded by son Henry III."},
+  {name:"Edward I",reign:"1272–1307",house:"Plantagenet",houseColor:"#7b5ea7",
+   facts:"• Conquered Wales (1282) and built a ring of castles to control it\n• Attempted to conquer Scotland — 'Hammer of the Scots'\n• Significantly reformed Parliament and English law",
+   succession:"Son of Henry III. Succeeded by son Edward II."},
+  {name:"Edward III",reign:"1327–1377",house:"Plantagenet",houseColor:"#7b5ea7",
+   facts:"• Began the Hundred Years' War with France (1337)\n• Black Death (1348) killed ~one third of England's population during his reign\n• Founded the Order of the Garter (1348) — highest order of chivalry",
+   succession:"Grandson of Edward I. Descendants' rivalry sparked the Wars of the Roses."},
+  {name:"Henry V",reign:"1413–1422",house:"Lancaster",houseColor:"#a83232",
+   facts:"• Resumed Hundred Years' War; won Battle of Agincourt (1415) against overwhelming odds\n• Treaty of Troyes (1420) made him heir to the French throne\n• Died aged 35; immortalised by Shakespeare",
+   succession:"Son of Henry IV. Succeeded by infant son Henry VI."},
+  {name:"Henry VII",reign:"1485–1509",house:"Tudor",houseColor:"#c0392b",
+   facts:"• Founded Tudor dynasty by defeating Richard III at Bosworth Field\n• United Lancaster and York by marrying Elizabeth of York\n• Restored financial stability and strong central government",
+   succession:"Descended from John of Gaunt (Lancaster). Succeeded by son Henry VIII."},
+  {name:"Henry VIII",reign:"1509–1547",house:"Tudor",houseColor:"#c0392b",
+   facts:"• Created Church of England by breaking with Rome (Act of Supremacy 1534)\n• Had six wives: Catherine of Aragon · Anne Boleyn · Jane Seymour · Anne of Cleves · Catherine Howard · Catherine Parr\n• Dissolved the monasteries, seizing enormous wealth",
+   succession:"Son of Henry VII. Succeeded by son Edward VI."},
+  {name:"Mary I",reign:"1553–1558",house:"Tudor",houseColor:"#c0392b",
+   facts:"• England's first queen regnant; restored Catholicism\n• Had ~300 Protestants burned at the stake — 'Bloody Mary'\n• Married Philip II of Spain; died childless",
+   succession:"Daughter of Henry VIII & Catherine of Aragon. Succeeded by half-sister Elizabeth I."},
+  {name:"Elizabeth I",reign:"1558–1603",house:"Tudor",houseColor:"#c0392b",
+   facts:"• The 'Virgin Queen' — never married; ruled with great political skill\n• Defeat of the Spanish Armada (1588) — defining moment of English pride\n• Cultural golden age: Shakespeare, Drake's circumnavigation, Marlowe",
+   succession:"Daughter of Henry VIII & Anne Boleyn. Died childless. Succeeded by cousin James VI of Scotland."},
+  {name:"James I",reign:"1603–1625",house:"Stuart",houseColor:"#2980b9",
+   facts:"• United crowns of England and Scotland\n• Gunpowder Plot (1605): Guy Fawkes tried to blow up Parliament\n• Commissioned the King James Bible (1611)",
+   succession:"Great-great-grandson of Henry VII. Succeeded by son Charles I."},
+  {name:"Charles I",reign:"1625–1649",house:"Stuart",houseColor:"#2980b9",
+   facts:"• Clashed with Parliament over taxes and religion → English Civil War\n• Defeated by Parliamentarians under Oliver Cromwell\n• Executed 30 January 1649 — only English king beheaded",
+   succession:"Son of James I. Monarchy restored with son Charles II in 1660."},
+  {name:"Charles II",reign:"1660–1685",house:"Stuart",houseColor:"#2980b9",
+   facts:"• 'Merry Monarch'; restored monarchy after Cromwell's Commonwealth\n• Great Plague (1665) and Great Fire of London (1666) during his reign\n• Founded the Royal Society; no legitimate children",
+   succession:"Son of Charles I. Succeeded by Catholic brother James II."},
+  {name:"William III & Mary II",reign:"1689–1702",house:"Stuart",houseColor:"#2980b9",
+   facts:"• Invited to replace Catholic James II in the Glorious Revolution (1688)\n• Signed the Bill of Rights (1689) — cornerstone of constitutional monarchy\n• William defeated James at the Battle of the Boyne (1690)",
+   succession:"Mary: daughter of James II. William: her Dutch husband. Succeeded by Mary's sister Anne."},
+  {name:"Queen Anne",reign:"1702–1714",house:"Stuart",houseColor:"#2980b9",
+   facts:"• Act of Union (1707) created the Kingdom of Great Britain\n• Suffered 17 pregnancies; no children survived into adulthood\n• Last Stuart monarch — died without an heir",
+   succession:"Daughter of James II. Succeeded by distant Protestant cousin George I of Hanover."},
+  {name:"George I",reign:"1714–1727",house:"Hanover",houseColor:"#27ae60",
+   facts:"• First Hanoverian king; spoke little English\n• Role of Prime Minister developed under Robert Walpole during his reign\n• Jacobite Rising (1715) tried to restore the Stuarts",
+   succession:"Great-grandson of James I. Succeeded by son George II."},
+  {name:"George III",reign:"1760–1820",house:"Hanover",houseColor:"#27ae60",
+   facts:"• Lost American colonies after American War of Independence (1776–1783)\n• Act of Union 1800 created the United Kingdom of Great Britain and Ireland\n• Suffered recurrent mental illness; son became Prince Regent from 1811",
+   succession:"Grandson of George II. Succeeded by son George IV."},
+  {name:"Queen Victoria",reign:"1837–1901",house:"Saxe-Coburg",houseColor:"#16a085",
+   facts:"• Longest-reigning monarch until Elizabeth II — 63 years on the throne\n• Presided over enormous expansion of the British Empire\n• Married Prince Albert; 9 children who married into royal families across Europe",
+   succession:"Granddaughter of George III. Succeeded by son Edward VII."},
+  {name:"George V",reign:"1910–1936",house:"Windsor",houseColor:"#1a5276",
+   facts:"• Changed family name from Saxe-Coburg-Gotha to Windsor (1917) due to anti-German WWI sentiment\n• First monarch to make Christmas radio broadcasts\n• Signed Statute of Westminster (1931) giving Dominions independence",
+   succession:"Son of Edward VII. Succeeded by Edward VIII, who abdicated; then by George VI."},
+  {name:"George VI",reign:"1936–1952",house:"Windsor",houseColor:"#1a5276",
+   facts:"• Became king after brother Edward VIII abdicated to marry Wallis Simpson\n• Led Britain through WWII; stayed in London during the Blitz\n• Oversaw Indian independence (1947) and start of decolonisation",
+   succession:"Son of George V. Succeeded by daughter Elizabeth II."},
+  {name:"Elizabeth II",reign:"1952–2022",house:"Windsor",houseColor:"#1a5276",
+   facts:"• Longest-reigning British monarch — 70 years\n• Witnessed the British Empire become the Commonwealth of Nations\n• Appointed 15 Prime Ministers, from Winston Churchill to Liz Truss",
+   succession:"Daughter of George VI. Died 8 Sep 2022. Succeeded by son Charles III."},
+  {name:"Charles III",reign:"2022–present",house:"Windsor",houseColor:"#1a5276",
+   facts:"• Became king 8 September 2022 on death of Elizabeth II\n• Coronation at Westminster Abbey on 6 May 2023\n• Long-standing advocate for environmental and architectural causes",
+   succession:"Son of Elizabeth II."},
+];
+
+/* ═══════════════════════════════════════
+   HISTORY TIMELINE DATA
+   Each era has: monarchBlocks (monarchs) + events (left/right columns)
+═══════════════════════════════════════ */
+const ERAS=[
+  {id:"ancient",label:"Ancient & Roman",color:"#8fa3b0",
+   events:[
+    {side:"left",year:"c.10000 BC",type:"event",color:"var(--c-event)",title:"First Inhabitants",sub:"Hunter-gatherers arrive",body:"After the Ice Age, hunter-gatherers crossed the land bridge from Europe into Britain around 10,000 BC. Britain became an island when sea levels rose around 6,500 BC."},
+    {side:"right",year:"55–54 BC",type:"war",color:"var(--c-war)",title:"Julius Caesar's Expeditions",sub:"Roman Republic",body:"Caesar led two military expeditions to Britain in 55 and 54 BC — the first Roman commander to bring military force to the island — but established no permanent Roman rule.",tags:["Roman"]},
+    {side:"left",year:"AD 43",type:"event",color:"var(--c-event)",title:"Roman Conquest",sub:"Emperor Claudius",body:"Emperor Claudius sent 40,000 troops who rapidly conquered southern Britain. London (Londinium) was founded. Romans ruled for nearly 400 years, building roads, towns, and a Latin-speaking administration.",tags:["Roman","Claudius"]},
+    {side:"right",year:"AD 60",type:"war",color:"var(--c-war)",title:"Boudica's Revolt",sub:"Queen of the Iceni",body:"Queen Boudica of the Iceni tribe led a major uprising against Roman rule, burning Londinium, Verulamium and Camulodunum. The revolt was crushed but showed the limits of Roman control.",tags:["Iceni","Rebellion"]},
+    {side:"left",year:"AD 122",type:"law",color:"var(--c-law)",title:"Hadrian's Wall Built",sub:"Emperor Hadrian",body:"Hadrian ordered a 73-mile wall from Carlisle to Newcastle to protect Roman Britain from northern tribes (the Picts). Still visible today — one of Britain's most impressive Roman monuments.",tags:["Roman","Hadrian"]},
+    {side:"right",year:"AD 410",type:"event",color:"var(--c-event)",title:"Romans Leave Britain",sub:"End of Roman rule",body:"Emperor Honorius told British cities to defend themselves. The Roman withdrawal left a power vacuum, soon filled by Anglo-Saxon tribes from northern Europe.",tags:["Anglo-Saxon"]},
+    {side:"left",year:"c.AD 600",type:"event",color:"var(--c-event)",title:"Christianity Spreads",sub:"St Augustine & Ethelbert",body:"Pope Gregory sent Augustine to England ~AD 597. He converted King Ethelbert of Kent — the first Christian Anglo-Saxon king — and became the first Archbishop of Canterbury.",tags:["Christianity","Anglo-Saxon"]},
+   ]},
+
+  {id:"medieval",label:"Medieval",color:"#8b5a2b",
+   events:[
+    {side:"left",year:"1066",type:"event",color:"var(--c-event)",ruler:{name:"William I",color:"#c8894a"},title:"Battle of Hastings",sub:"Norman Conquest",body:"William the Conqueror defeated King Harold II on 14 October 1066 — the last successful invasion of England. Norman rule transformed English culture, language and law entirely.",tags:["Norman","William I"]},
+    {side:"right",year:"1086",type:"law",color:"var(--c-law)",ruler:{name:"William I",color:"#c8894a"},title:"Domesday Book",sub:"Survey of England",body:"William ordered a comprehensive survey of England to assess taxable wealth. It recorded every landowner, tenant, village, and head of livestock — an extraordinary administrative achievement.",tags:["Norman","Taxation"]},
+    {side:"left",year:"1170",type:"event",color:"var(--c-event)",ruler:{name:"Henry II",color:"#7b5ea7"},title:"Murder of Thomas Becket",sub:"Canterbury Cathedral",body:"Archbishop Becket was murdered in Canterbury Cathedral after Henry II's angry outburst. The king did public penance and Becket was canonised — a defining conflict between Church and Crown.",tags:["Henry II","Church"]},
+    {side:"right",year:"1215",type:"law",color:"var(--c-law)",ruler:{name:"King John",color:"#7b5ea7"},title:"Magna Carta",sub:"Runnymede",body:"Forced by rebellious barons, King John signed the Great Charter at Runnymede. It established that the king was subject to the rule of law and protected certain rights — a cornerstone of democracy worldwide.",tags:["Law","Rights"]},
+    {side:"left",year:"1265",type:"reform",color:"var(--c-reform)",ruler:{name:"Henry III",color:"#7b5ea7"},title:"First English Parliament",sub:"Simon de Montfort",body:"De Montfort called the first Parliament including knights and townspeople alongside barons — an early step toward representative government.",tags:["Parliament","Democracy"]},
+    {side:"right",year:"1337",type:"war",color:"var(--c-war)",ruler:{name:"Edward III",color:"#7b5ea7"},title:"Hundred Years' War Begins",sub:"England vs France",body:"Edward III claimed the French throne, starting an intermittent conflict lasting until 1453. It forged English national identity and saw famous victories at Crécy (1346) and Agincourt (1415).",tags:["War","France"]},
+    {side:"left",year:"1348",type:"event",color:"var(--c-event)",ruler:{name:"Edward III",color:"#7b5ea7"},title:"Black Death",sub:"One-third of England dies",body:"Bubonic plague reached England in 1348 and killed approximately one third of the population. The resulting labour shortage fundamentally disrupted the feudal system and accelerated social change.",tags:["Plague","Social Change"]},
+    {side:"right",year:"1415",type:"war",color:"var(--c-war)",ruler:{name:"Henry V",color:"#a83232"},title:"Battle of Agincourt",sub:"Victory over France",body:"Henry V's outnumbered army defeated a much larger French force. The victory made Henry a national hero. Treaty of Troyes (1420) made him heir to the French throne.",tags:["War","France"]},
+    {side:"left",year:"1455",type:"war",color:"var(--c-war)",ruler:{name:"Henry VI",color:"#a83232"},title:"Wars of the Roses",sub:"Lancaster vs York",body:"Civil wars between the houses of Lancaster (red rose) and York (white rose) for the English throne. They ended at Bosworth Field in 1485, bringing Henry VII to power.",tags:["Civil War"]},
+   ]},
+
+  {id:"tudor",label:"Tudor",color:"#c0392b",
+   events:[
+    {side:"left",year:"1485",type:"event",color:"var(--c-event)",ruler:{name:"Henry VII",color:"#c0392b"},title:"Henry VII Founded Tudor Dynasty",sub:"Battle of Bosworth Field",body:"Henry Tudor defeated Richard III, ending the Wars of the Roses and founding the Tudor dynasty. He united Lancaster and York by marrying Elizabeth of York.",tags:["Tudor","Henry VII"]},
+    {side:"right",year:"1534",type:"law",color:"var(--c-law)",ruler:{name:"Henry VIII",color:"#c0392b"},title:"Act of Supremacy",sub:"English Reformation",body:"Henry VIII was declared Supreme Head of the Church of England, breaking with Rome. This enabled him to annul his marriage to Catherine of Aragon and triggered dissolution of the monasteries.",tags:["Reformation","Henry VIII"]},
+    {side:"left",year:"1553",type:"event",color:"var(--c-event)",ruler:{name:"Mary I",color:"#c0392b"},title:"Mary I — First Queen Regnant",sub:"Restoration of Catholicism",body:"England's first queen regnant restored Catholicism and had ~300 Protestants burned at the stake — earning the name 'Bloody Mary'. She married Philip II of Spain but died childless.",tags:["Tudor","Mary I"]},
+    {side:"right",year:"1558",type:"event",color:"var(--c-event)",ruler:{name:"Elizabeth I",color:"#c0392b"},title:"Elizabeth I — Golden Age",sub:"45-year reign",body:"Elizabeth I's reign was a cultural golden age: Shakespeare, Marlowe, Francis Drake, and Walter Raleigh all flourished. Her political skill and the defeat of the Armada defined English national pride.",tags:["Tudor","Elizabeth I"]},
+    {side:"left",year:"1588",type:"war",color:"var(--c-war)",ruler:{name:"Elizabeth I",color:"#c0392b"},title:"Spanish Armada Defeated",sub:"Philip II's fleet routed",body:"Philip II sent 130 ships to invade England. The English fleet under Drake and Lord Howard, aided by storms, scattered and sank much of the Armada — a defining national triumph.",tags:["Navy","Spain","Drake"]},
+   ]},
+
+  {id:"stuart",label:"Stuart",color:"#2980b9",
+   events:[
+    {side:"left",year:"1605",type:"event",color:"var(--c-event)",ruler:{name:"James I",color:"#2980b9"},title:"Gunpowder Plot",sub:"Guy Fawkes",body:"Catholic conspirators including Guy Fawkes planned to blow up Parliament and kill James I. Discovered on 5 November — now Bonfire Night. The conspirators were executed.",tags:["Stuart","Conspiracy"]},
+    {side:"right",year:"1642",type:"war",color:"var(--c-war)",ruler:{name:"Charles I",color:"#2980b9"},title:"English Civil War",sub:"Cavaliers vs Roundheads",body:"War between Royalists and Parliamentarians over royal power. Parliament won; Charles I was tried and executed in 1649 — the first and only time England executed its reigning monarch.",tags:["Civil War","Cromwell"]},
+    {side:"left",year:"1649",type:"event",color:"var(--c-event)",ruler:{name:"Oliver Cromwell",color:"#777"},title:"The Commonwealth",sub:"Cromwell, Lord Protector",body:"Charles I was beheaded on 30 January 1649. Cromwell ruled as Lord Protector until 1658. This period proved Parliament could govern — fundamentally reshaping constitutional thinking.",tags:["Regicide","Commonwealth"]},
+    {side:"right",year:"1666",type:"event",color:"var(--c-event)",ruler:{name:"Charles II",color:"#2980b9"},title:"Great Fire of London",sub:"Four days of devastation",body:"The fire burned for four days, destroying 13,000 houses and 87 churches including St Paul's Cathedral. Architect Christopher Wren rebuilt much of the City, including a new St Paul's.",tags:["London","Wren"]},
+    {side:"left",year:"1688",type:"reform",color:"var(--c-reform)",ruler:{name:"William III & Mary II",color:"#2980b9"},title:"Glorious Revolution",sub:"Bill of Rights 1689",body:"Parliament invited William of Orange to replace Catholic James II — a bloodless transfer. The Bill of Rights (1689) established Parliamentary supremacy over the Crown — a cornerstone of constitutional monarchy.",tags:["Rights","William III"]},
+    {side:"right",year:"1707",type:"law",color:"var(--c-law)",ruler:{name:"Queen Anne",color:"#2980b9"},title:"Acts of Union",sub:"Kingdom of Great Britain",body:"England and Scotland formally united as the Kingdom of Great Britain. Scotland retained its own legal and religious systems. Last Stuart monarch: Queen Anne.",tags:["Union","Scotland","Anne"]},
+   ]},
+
+  {id:"georgian",label:"Georgian",color:"#27ae60",
+   events:[
+    {side:"left",year:"1714",type:"event",color:"var(--c-event)",ruler:{name:"George I",color:"#27ae60"},pm:"Robert Walpole (from 1721)",title:"Hanoverian Era Begins",sub:"George I",body:"Protestant George I succeeded Anne, bypassing 57 closer Catholic heirs. Speaking little English, he relied on ministers — helping establish the role of Prime Minister under Robert Walpole.",tags:["Hanover","Prime Minister"]},
+    {side:"right",year:"1745",type:"war",color:"var(--c-war)",ruler:{name:"George II",color:"#27ae60"},pm:"Henry Pelham",title:"Jacobite Rising",sub:"Battle of Culloden",body:"Bonnie Prince Charlie led the last Jacobite attempt to restore the Stuarts. Crushed at Culloden (1746) — last pitched battle on British soil. Highland culture was subsequently suppressed.",tags:["Jacobite","Scotland"]},
+    {side:"left",year:"1776",type:"war",color:"var(--c-war)",ruler:{name:"George III",color:"#27ae60"},pm:"Lord North",title:"American Independence",sub:"Loss of the colonies",body:"The American colonies declared independence from Britain. After the American War of Independence (1775–1783), Britain recognised American independence in the Treaty of Paris.",tags:["America","Independence"]},
+    {side:"right",year:"1800",type:"law",color:"var(--c-law)",ruler:{name:"George III",color:"#27ae60"},pm:"William Pitt the Younger",title:"Act of Union — Ireland",sub:"United Kingdom formed",body:"Ireland was incorporated by the Act of Union 1800, creating the United Kingdom of Great Britain and Ireland. (Ireland later divided; Northern Ireland remains in the UK.)",tags:["Ireland","Union"]},
+    {side:"left",year:"1807",type:"reform",color:"var(--c-reform)",ruler:{name:"George III",color:"#27ae60"},pm:"William Grenville",title:"Slave Trade Abolished",sub:"Wilberforce",body:"The Slave Trade Act 1807 abolished the transatlantic slave trade throughout the British Empire, largely through Wilberforce and the Abolitionist movement.",tags:["Abolition","Wilberforce"]},
+    {side:"right",year:"1815",type:"war",color:"var(--c-war)",ruler:{name:"George III",color:"#27ae60"},pm:"Lord Liverpool",title:"Battle of Waterloo",sub:"Duke of Wellington",body:"Wellington and Prussian forces defeated Napoleon at Waterloo, ending the Napoleonic Wars and reshaping the map of Europe.",tags:["Wellington","Napoleon"]},
+    {side:"left",year:"1832",type:"reform",color:"var(--c-reform)",ruler:{name:"William IV",color:"#27ae60"},pm:"Earl Grey",title:"Great Reform Act",sub:"Expanded electorate",body:"Widened the electorate and abolished 'rotten boroughs'. A crucial step toward democratic government — though most men and all women still could not vote.",tags:["Democracy","Reform"]},
+    {side:"right",year:"1833",type:"reform",color:"var(--c-reform)",ruler:{name:"William IV",color:"#27ae60"},pm:"Earl Grey",title:"Slavery Abolition Act",sub:"Entire Empire",body:"Slavery abolished throughout the British Empire. Around 800,000 enslaved people were freed. Slave owners received financial compensation; the enslaved did not.",tags:["Abolition","Empire"]},
+   ]},
+
+  {id:"victorian",label:"Victorian",color:"#16a085",
+   events:[
+    {side:"left",year:"1838",type:"reform",color:"var(--c-reform)",ruler:{name:"Queen Victoria",color:"#16a085"},pm:"Lord Melbourne",title:"Chartist Movement",sub:"People's Charter",body:"Demanded votes for all men, secret ballots and annual Parliaments. Failed at the time but its six demands were largely enacted over the following century.",tags:["Democracy","Chartism"]},
+    {side:"right",year:"1870",type:"reform",color:"var(--c-reform)",ruler:{name:"Queen Victoria",color:"#16a085"},pm:"William Gladstone",title:"Elementary Education Act",sub:"Compulsory schooling",body:"Forster's Act established state elementary schools for children aged 5–12 in England and Wales. Education became compulsory in 1880 — transforming literacy.",tags:["Education","Reform"]},
+    {side:"left",year:"1884",type:"reform",color:"var(--c-reform)",ruler:{name:"Queen Victoria",color:"#16a085"},pm:"William Gladstone",title:"Representation of the People Act",sub:"Franchise extended",body:"Extended voting rights to ~60% of men. Three reform acts (1832, 1867, 1884) progressively expanded the franchise through the 19th century — but still no women.",tags:["Democracy","Franchise"]},
+   ]},
+
+  {id:"modern",label:"Modern",color:"#1a5276",
+   events:[
+    {side:"left",year:"1914–1918",type:"war",color:"var(--c-war)",ruler:{name:"George V",color:"#1a5276"},pm:"H.H. Asquith / Lloyd George",title:"World War I",sub:"The Great War",body:"Britain entered WWI on 4 August 1914. Over 700,000 British soldiers killed. Armistice: 11 November 1918 — Remembrance Day. George V changed the royal family name to Windsor in 1917.",tags:["WWI","Armistice"]},
+    {side:"right",year:"1918",type:"reform",color:"var(--c-reform)",ruler:{name:"George V",color:"#1a5276"},pm:"David Lloyd George",title:"Women Gain Partial Vote",sub:"Over 30s with property",body:"The Representation of the People Act 1918 gave the vote to women over 30 with property qualifications. Full equal voting rights for all women over 21 came in 1928.",tags:["Suffrage","Women"]},
+    {side:"left",year:"1928",type:"reform",color:"var(--c-reform)",ruler:{name:"George V",color:"#1a5276"},pm:"Stanley Baldwin",title:"Equal Voting Rights",sub:"All women over 21",body:"The Equal Franchise Act 1928 gave all women over 21 the right to vote — equal with men. The Suffragette movement (Emmeline Pankhurst, WSPU) had campaigned for decades for this.",tags:["Suffrage","Pankhurst"]},
+    {side:"right",year:"1939–1945",type:"war",color:"var(--c-war)",ruler:{name:"George VI",color:"#1a5276"},pm:"Neville Chamberlain / Winston Churchill",title:"World War II",sub:"Churchill's Britain",body:"Britain declared war on Germany 3 September 1939. Churchill became PM 1940. The Blitz devastated British cities; George VI and Queen Elizabeth stayed in London to boost morale. VE Day: 8 May 1945.",tags:["WWII","Churchill","Blitz"]},
+    {side:"left",year:"1944",type:"event",color:"var(--c-event)",ruler:{name:"George VI",color:"#1a5276"},pm:"Winston Churchill",title:"Colossus Computer",sub:"Tommy Flowers, Bletchley",body:"Tommy Flowers built Colossus to break German Lorenz codes — the world's first electronic programmable computer. Alan Turing's mathematical work provided crucial foundations.",tags:["Technology","Turing"]},
+    {side:"right",year:"1948",type:"reform",color:"var(--c-reform)",ruler:{name:"George VI",color:"#1a5276"},pm:"Clement Attlee",title:"NHS Founded",sub:"Aneurin Bevan",body:"Bevan launched the National Health Service on 5 July 1948 — free healthcare at the point of use for all. The Welfare State also introduced National Insurance for pensions and unemployment.",tags:["NHS","Welfare State"]},
+    {side:"left",year:"1947",type:"reform",color:"var(--c-reform)",ruler:{name:"George VI",color:"#1a5276"},pm:"Clement Attlee",title:"Indian Independence",sub:"Decolonisation begins",body:"India and Pakistan gained independence in August 1947 — beginning the dismantling of the British Empire and the gradual formation of the Commonwealth of Nations.",tags:["Empire","Commonwealth"]},
+    {side:"right",year:"1969",type:"reform",color:"var(--c-reform)",ruler:{name:"Elizabeth II",color:"#1a5276"},pm:"Harold Wilson",title:"Voting Age Lowered to 18",sub:"Representation of the People Act 1969",body:"The voting age was lowered from 21 to 18. Scotland and Wales later extended this to 16 for devolved elections.",tags:["Democracy","Franchise"]},
+    {side:"left",year:"1979",type:"event",color:"var(--c-event)",ruler:{name:"Elizabeth II",color:"#1a5276"},pm:"Margaret Thatcher",title:"First Female Prime Minister",sub:"Margaret Thatcher",body:"Conservative leader Thatcher became Britain's first female PM in May 1979, serving until 1990. She transformed the economy through privatisation, free-market reform and confronting trade unions.",tags:["Thatcher","Conservative"]},
+    {side:"right",year:"1997",type:"reform",color:"var(--c-reform)",ruler:{name:"Elizabeth II",color:"#1a5276"},pm:"Tony Blair",title:"Devolution",sub:"Scotland, Wales, N. Ireland",body:"Referendums approved devolved legislatures. Scottish Parliament and Welsh Assembly established 1999, followed by the Northern Ireland Assembly — granting greater self-governance to each nation.",tags:["Scotland","Wales","Devolution"]},
+   ]},
+];
+
+/* ═══════════════════════════════════════
+   NOTABLE BRITONS DATA
+═══════════════════════════════════════ */
+const PEOPLE=[
+  /* SCIENCE */
+  {cat:"Science & Invention",color:"var(--c-science)",emoji:"🔭",
+   name:"Isaac Newton",dates:"1643–1727",
+   tagline:"Laid foundations of modern physics",
+   body:"Discovered the laws of motion and universal gravitation. Developed calculus (independently of Leibniz). His book Principia Mathematica (1687) is one of the most important scientific works ever written.",
+   tags:["Physics","Mathematics","Cambridge"]},
+  {cat:"Science & Invention",color:"var(--c-science)",emoji:"⚡",
+   name:"Michael Faraday",dates:"1791–1867",
+   tagline:"Pioneer of electromagnetism",
+   body:"From a poor background, Faraday became one of history's greatest experimental scientists. Discovered electromagnetic induction — the principle behind electric motors and generators. His work made electrification of the world possible.",
+   tags:["Electricity","Physics","Royal Institution"]},
+  {cat:"Science & Invention",color:"var(--c-science)",emoji:"🧬",
+   name:"Charles Darwin",dates:"1809–1882",
+   tagline:"Theory of evolution by natural selection",
+   body:"His voyage on HMS Beagle led to 'On the Origin of Species' (1859), proposing that all species evolve through natural selection. One of the most consequential scientific ideas in history.",
+   tags:["Biology","Evolution","Galapagos"]},
+  {cat:"Science & Invention",color:"var(--c-science)",emoji:"💡",
+   name:"Alexander Graham Bell",dates:"1847–1922",
+   tagline:"Inventor of the telephone",
+   body:"Born in Edinburgh, Bell invented the telephone in 1876. His invention transformed human communication worldwide. He also worked on optical telecommunications and early aircraft.",
+   tags:["Invention","Telephone","Edinburgh"]},
+  {cat:"Science & Invention",color:"var(--c-science)",emoji:"🖥",
+   name:"Alan Turing",dates:"1912–1954",
+   tagline:"Father of computer science",
+   body:"Developed the theoretical foundations of computing (Turing Machine). At Bletchley Park during WWII he was central to breaking the German Enigma code. Prosecuted for his homosexuality; received a posthumous royal pardon in 2013.",
+   tags:["Computing","WWII","Enigma","Bletchley"]},
+  {cat:"Science & Invention",color:"var(--c-science)",emoji:"🧪",
+   name:"Rosalind Franklin",dates:"1920–1958",
+   tagline:"Her X-ray images revealed the structure of DNA",
+   body:"Franklin's X-ray crystallography produced Photo 51 — the crucial image that helped Watson and Crick determine the double helix structure of DNA. She did not share in the Nobel Prize due to her early death.",
+   tags:["DNA","Chemistry","Biology"]},
+  {cat:"Science & Invention",color:"var(--c-science)",emoji:"🌐",
+   name:"Tim Berners-Lee",dates:"1955–",
+   tagline:"Invented the World Wide Web",
+   body:"While working at CERN in 1989, Berners-Lee proposed and created the World Wide Web — the system of interlinked documents that made the internet accessible to everyone. He made it free and open.",
+   tags:["Internet","Computing","CERN"]},
+  {cat:"Science & Invention",color:"var(--c-science)",emoji:"🧫",
+   name:"Alexander Fleming",dates:"1881–1955",
+   tagline:"Discovered penicillin",
+   body:"Fleming discovered penicillin in 1928 when he noticed mould killing bacteria in his laboratory. The subsequent development of penicillin as an antibiotic has saved hundreds of millions of lives.",
+   tags:["Medicine","Antibiotics","Nobel Prize"]},
+
+  /* ARTS & LITERATURE */
+  {cat:"Arts & Literature",color:"var(--c-art)",emoji:"🎭",
+   name:"William Shakespeare",dates:"1564–1616",
+   tagline:"Greatest writer in the English language",
+   body:"Born in Stratford-upon-Avon, Shakespeare wrote 37 plays and 154 sonnets. Works including Hamlet, Macbeth, Romeo and Juliet, and A Midsummer Night's Dream remain performed worldwide. His language shaped modern English.",
+   tags:["Theatre","Poetry","Elizabethan","Stratford"]},
+  {cat:"Arts & Literature",color:"var(--c-art)",emoji:"📖",
+   name:"Jane Austen",dates:"1775–1817",
+   tagline:"Pioneer of the modern novel",
+   body:"Austen's novels — including Pride and Prejudice, Sense and Sensibility, and Emma — are beloved for their wit, social observation, and memorable characters. Her face appears on the £10 note.",
+   tags:["Novel","Literature","Hampshire"]},
+  {cat:"Arts & Literature",color:"var(--c-art)",emoji:"🎵",
+   name:"The Beatles",dates:"1960–1970",
+   tagline:"Most influential band in popular music history",
+   body:"John Lennon, Paul McCartney, George Harrison and Ringo Starr from Liverpool. They transformed popular music worldwide with albums including Sgt. Pepper's Lonely Hearts Club Band. Part of the 'British Invasion' of the US.",
+   tags:["Music","Liverpool","British Invasion"]},
+  {cat:"Arts & Literature",color:"var(--c-art)",emoji:"🎼",
+   name:"Henry Purcell",dates:"1659–1695",
+   tagline:"Greatest English composer of the Baroque",
+   body:"Purcell composed Dido and Aeneas (first great English opera), music for the theatre, and sacred choral works. He was organist of Westminster Abbey and the Chapel Royal.",
+   tags:["Music","Baroque","Westminster"]},
+  {cat:"Arts & Literature",color:"var(--c-art)",emoji:"✏️",
+   name:"Charles Dickens",dates:"1812–1870",
+   tagline:"Champion of the poor through literature",
+   body:"Dickens' novels — Oliver Twist, A Tale of Two Cities, Great Expectations, A Christmas Carol — exposed social injustice in Victorian England. He helped shape public attitudes and government policy on poverty.",
+   tags:["Novel","Victorian","Social Reform"]},
+  {cat:"Arts & Literature",color:"var(--c-art)",emoji:"🎬",
+   name:"Alfred Hitchcock",dates:"1899–1980",
+   tagline:"Master of suspense",
+   body:"Born in London, Hitchcock directed classics including Psycho, Vertigo, Rear Window and The 39 Steps. He pioneered psychological thriller techniques still used today; called 'the Master of Suspense'.",
+   tags:["Film","Director","London"]},
+
+  /* SPORT */
+  {cat:"Sport",color:"var(--c-sport)",emoji:"⚽",
+   name:"Bobby Moore",dates:"1941–1993",
+   tagline:"England's World Cup-winning captain, 1966",
+   body:"Bobby Moore captained England to victory at the 1966 FIFA World Cup — the only time England has won the tournament, played at Wembley Stadium. Regarded as one of the greatest defenders of all time.",
+   tags:["Football","World Cup","1966","West Ham"]},
+  {cat:"Sport",color:"var(--c-sport)",emoji:"🎾",
+   name:"Andy Murray",dates:"1987–",
+   tagline:"First British man to win Wimbledon since 1936",
+   body:"Born in Dunblane, Scotland, Murray won Wimbledon in 2013 and 2016, and Olympic gold medals in 2012 and 2016. He was the first British man to win Wimbledon since Fred Perry in 1936.",
+   tags:["Tennis","Wimbledon","Scotland","Olympics"]},
+  {cat:"Sport",color:"var(--c-sport)",emoji:"🥊",
+   name:"Lennox Lewis",dates:"1965–",
+   tagline:"Undisputed World Heavyweight Champion",
+   body:"Born in West Ham, London, Lewis became Undisputed World Heavyweight Champion in 1999. He represented Canada at the 1988 Olympics and Britain professionally — one of the most decorated heavyweight champions.",
+   tags:["Boxing","Heavyweight","Olympic"]},
+  {cat:"Sport",color:"var(--c-sport)",emoji:"🏊",
+   name:"Rebecca Adlington",dates:"1989–",
+   tagline:"Two Olympic gold medals, Beijing 2008",
+   body:"Adlington won two gold medals at the 2008 Beijing Olympics (400m and 800m freestyle) — the first British swimmer to win Olympic gold since 1988. She also won bronze medals at London 2012.",
+   tags:["Swimming","Olympics","Beijing"]},
+  {cat:"Sport",color:"var(--c-sport)",emoji:"🏃",
+   name:"Roger Bannister",dates:"1929–2018",
+   tagline:"First person to run a sub-4-minute mile",
+   body:"On 6 May 1954 at Oxford, Bannister ran a mile in 3 minutes 59.4 seconds — breaking the four-minute barrier once thought physically impossible. The achievement galvanised athletes worldwide.",
+   tags:["Athletics","Oxford","Mile","1954"]},
+  {cat:"Sport",color:"var(--c-sport)",emoji:"🚴",
+   name:"Bradley Wiggins",dates:"1980–",
+   tagline:"First Briton to win the Tour de France",
+   body:"Wiggins won the Tour de France in 2012 — the first British winner — and won Olympic gold at the same Games. In total he won eight Olympic medals (five gold), making him one of Britain's most decorated Olympians.",
+   tags:["Cycling","Tour de France","Olympics"]},
+  {cat:"Sport",color:"var(--c-sport)",emoji:"🏄",
+   name:"Nick Skelton",dates:"1957–",
+   tagline:"Olympic show jumping gold at age 58",
+   body:"Born in Warwickshire, Skelton won Olympic individual show jumping gold at Rio 2016 aged 58 — one of the oldest Olympic champions in history — after recovering from a near-fatal neck injury.",
+   tags:["Equestrian","Olympics","Rio 2016"]},
+
+  /* POLITICS & SOCIETY */
+  {cat:"Politics & Society",color:"var(--c-politics)",emoji:"✊",
+   name:"William Wilberforce",dates:"1759–1833",
+   tagline:"Led the campaign to abolish slavery",
+   body:"Yorkshire-born MP who devoted his political life to abolishing the slave trade and slavery. The Slave Trade Act (1807) and the Slavery Abolition Act (1833) were his great victories. He died just days after the Abolition Act passed.",
+   tags:["Abolition","Parliament","Yorkshire"]},
+  {cat:"Politics & Society",color:"var(--c-politics)",emoji:"🔓",
+   name:"Emmeline Pankhurst",dates:"1858–1928",
+   tagline:"Leader of the Suffragette movement",
+   body:"Manchester-born Pankhurst founded the WSPU (Women's Social and Political Union) in 1903. Suffragettes used civil disobedience — chaining to railings, hunger strikes — to win votes for women. Partial victory in 1918; full equality in 1928.",
+   tags:["Suffragette","Women","Manchester","WSPU"]},
+  {cat:"Politics & Society",color:"var(--c-politics)",emoji:"📣",
+   name:"Aneurin (Nye) Bevan",dates:"1897–1960",
+   tagline:"Created the National Health Service",
+   body:"Welsh Labour politician from a mining background who, as Minister of Health, designed and launched the NHS on 5 July 1948. Believed healthcare should be free at point of use for all — regardless of wealth.",
+   tags:["NHS","Labour","Wales","Welfare State"]},
+  {cat:"Politics & Society",color:"var(--c-politics)",emoji:"🎤",
+   name:"Winston Churchill",dates:"1874–1965",
+   tagline:"Led Britain through World War II",
+   body:"Twice Prime Minister (1940–45, 1951–55). His wartime speeches ('We shall fight on the beaches') galvanised Britain during WWII. Also a writer and won the Nobel Prize in Literature in 1953.",
+   tags:["WWII","Prime Minister","Nobel Prize"]},
+  {cat:"Politics & Society",color:"var(--c-politics)",emoji:"🌍",
+   name:"Mary Seacole",dates:"1805–1881",
+   tagline:"Pioneering nurse in the Crimean War",
+   body:"Born in Jamaica, Seacole travelled to Crimea at her own expense to care for wounded British soldiers when she was refused by Florence Nightingale's organisation. Celebrated in her lifetime; later overlooked — now recognised as a British heroine.",
+   tags:["Nursing","Crimea","Jamaica","Medicine"]},
+  {cat:"Politics & Society",color:"var(--c-politics)",emoji:"💊",
+   name:"Florence Nightingale",dates:"1820–1910",
+   tagline:"Founder of modern nursing",
+   body:"'The Lady with the Lamp' transformed nursing during the Crimean War, dramatically reducing mortality by improving hygiene standards. She founded the Nightingale Training School in London and used statistics to drive healthcare reform.",
+   tags:["Nursing","Crimea","Statistics","Medicine"]},
+
+  /* SCIENCE — additional */
+  {cat:"Science & Invention",color:"var(--c-science)",emoji:"⚛️",
+   name:"Ernest Rutherford",dates:"1871–1937",
+   tagline:"Split the atom — father of nuclear physics",
+   body:"Born in New Zealand, Rutherford worked at the Cavendish Laboratory, Cambridge. He discovered the nuclear structure of the atom, named the proton, and first split the atom artificially. Won the Nobel Prize in Chemistry in 1908.",
+   tags:["Physics","Cambridge","Nobel Prize","Nuclear"]},
+  {cat:"Science & Invention",color:"var(--c-science)",emoji:"💻",
+   name:"Ada Lovelace",dates:"1815–1852",
+   tagline:"World's first computer programmer",
+   body:"Daughter of poet Lord Byron, Lovelace worked with Charles Babbage on his Analytical Engine and wrote what is considered the first algorithm intended to be processed by a machine — a century before computers existed.",
+   tags:["Computing","Mathematics","Victorian"]},
+  {cat:"Science & Invention",color:"var(--c-science)",emoji:"📡",
+   name:"James Clerk Maxwell",dates:"1831–1879",
+   tagline:"Unified electricity, magnetism and light",
+   body:"Scottish physicist whose equations describing electromagnetism are one of the greatest achievements in physics. Einstein called Maxwell's work the most profound change in physics since Newton. He also produced the world's first colour photograph.",
+   tags:["Physics","Scotland","Electromagnetism"]},
+  {cat:"Science & Invention",color:"var(--c-science)",emoji:"🚂",
+   name:"George Stephenson",dates:"1781–1848",
+   tagline:"Father of the railways",
+   body:"Self-educated colliery engineman from Northumberland who built the first public inter-city steam railway — the Liverpool and Manchester Railway (1830). His Rocket locomotive set the template for all subsequent railway engines.",
+   tags:["Engineering","Railways","Industrial Revolution"]},
+  {cat:"Science & Invention",color:"var(--c-science)",emoji:"🔬",
+   name:"Joseph Lister",dates:"1827–1912",
+   tagline:"Pioneered antiseptic surgery",
+   body:"Inspired by Pasteur's germ theory, Lister introduced antiseptic techniques in surgery, transforming it from a death sentence into a survivable procedure. Using carbolic acid, he cut surgical mortality dramatically. Listerine is named after him.",
+   tags:["Medicine","Surgery","Victorian"]},
+
+  /* ARTS & LITERATURE — additional */
+  {cat:"Arts & Literature",color:"var(--c-art)",emoji:"🎭",
+   name:"Oscar Wilde",dates:"1854–1900",
+   tagline:"Wit, playwright and master of the epigram",
+   body:"Dublin-born Wilde was one of Victorian London's most celebrated playwrights — The Importance of Being Earnest, An Ideal Husband — and wrote The Picture of Dorian Gray. Imprisoned in 1895 for 'gross indecency'; died in Paris aged 46.",
+   tags:["Theatre","Literature","Victorian","Dublin"]},
+  {cat:"Arts & Literature",color:"var(--c-art)",emoji:"📚",
+   name:"J.K. Rowling",dates:"1965–",
+   tagline:"Created Harry Potter — best-selling book series ever",
+   body:"Rowling wrote the first Harry Potter novel as a single mother in Edinburgh. The seven-book series has sold over 500 million copies worldwide and spawned films, theme parks and a generation of readers.",
+   tags:["Literature","Edinburgh","Fantasy"]},
+  {cat:"Arts & Literature",color:"var(--c-art)",emoji:"🎨",
+   name:"J.M.W. Turner",dates:"1775–1851",
+   tagline:"Greatest British painter — master of light",
+   body:"Turner revolutionised landscape painting with his dramatic depictions of light, atmosphere and the power of nature. The Fighting Temeraire and Rain, Steam and Speed are among the most beloved works in British art. The Turner Prize is named after him.",
+   tags:["Painting","Art","Victorian","London"]},
+  {cat:"Arts & Literature",color:"var(--c-art)",emoji:"🖊️",
+   name:"George Orwell",dates:"1903–1950",
+   tagline:"Animal Farm and Nineteen Eighty-Four",
+   body:"Orwell's Animal Farm (1945) and Nineteen Eighty-Four (1949) are defining works of political literature — warnings against totalitarianism that gave us words like 'doublethink' and 'Big Brother'. He also wrote celebrated essays on English politics and culture.",
+   tags:["Literature","Politics","Dystopia"]},
+  {cat:"Arts & Literature",color:"var(--c-art)",emoji:"🧙",
+   name:"J.R.R. Tolkien",dates:"1892–1973",
+   tagline:"Created Middle-earth — father of modern fantasy",
+   body:"Oxford professor who wrote The Hobbit (1937) and The Lord of the Rings (1954–55), creating an entirely imagined world with its own languages and mythology. His work defined the modern fantasy genre and has sold over 150 million copies.",
+   tags:["Literature","Fantasy","Oxford"]},
+  {cat:"Arts & Literature",color:"var(--c-art)",emoji:"🎶",
+   name:"Edward Elgar",dates:"1857–1934",
+   tagline:"Pomp and Circumstance — voice of an empire",
+   body:"Worcestershire-born Elgar was the first major English composer in two centuries. His Enigma Variations, Cello Concerto, and Pomp and Circumstance Marches (including 'Land of Hope and Glory') made him the musical voice of Edwardian Britain.",
+   tags:["Music","Classical","Worcester"]},
+  {cat:"Arts & Literature",color:"var(--c-art)",emoji:"📝",
+   name:"Virginia Woolf",dates:"1882–1941",
+   tagline:"Pioneer of modernist fiction and feminist thought",
+   body:"London-born Woolf transformed the novel with stream-of-consciousness writing in Mrs Dalloway and To the Lighthouse. Her essay A Room of One's Own is a landmark of feminist thought. She was central to the Bloomsbury Group of writers and artists.",
+   tags:["Literature","Modernism","Feminism","Bloomsbury"]},
+
+  /* SPORT — additional */
+  {cat:"Sport",color:"var(--c-sport)",emoji:"🏃‍♂️",
+   name:"Mo Farah",dates:"1983–",
+   tagline:"Four Olympic gold medals in distance running",
+   body:"Born in Somalia, Farah moved to Britain aged eight. He won gold in both the 5,000m and 10,000m at London 2012 and Rio 2016 — an unprecedented 'double double'. The most successful British track athlete in Olympic history.",
+   tags:["Athletics","Olympics","Distance Running","London 2012"]},
+  {cat:"Sport",color:"var(--c-sport)",emoji:"🥇",
+   name:"Jessica Ennis-Hill",dates:"1986–",
+   tagline:"Heptathlon gold — face of London 2012",
+   body:"Sheffield-born Ennis-Hill won heptathlon gold at London 2012 in front of a home crowd — one of the defining moments of the Games. Also won World Championship gold in 2009 and 2015. Became Dame Jessica Ennis-Hill in 2017.",
+   tags:["Athletics","Heptathlon","London 2012","Sheffield"]},
+  {cat:"Sport",color:"var(--c-sport)",emoji:"🏊‍♀️",
+   name:"Ellie Simmonds",dates:"1994–",
+   tagline:"Five Paralympic gold medals",
+   body:"Born with achondroplasia, Simmonds won her first Paralympic gold aged 13 at Beijing 2008. She won five Paralympic golds across three Games, becoming one of Britain's most celebrated Paralympians and an inspiration to disabled athletes.",
+   tags:["Paralympics","Swimming","Disability Sport"]},
+  {cat:"Sport",color:"var(--c-sport)",emoji:"🏉",
+   name:"Jonny Wilkinson",dates:"1979–",
+   tagline:"World Cup-winning drop goal, 2003",
+   body:"England fly-half who kicked the famous drop goal in extra time that won the 2003 Rugby World Cup against Australia — England's only World Cup victory. Renowned for his obsessive dedication to practice and won 91 England caps.",
+   tags:["Rugby","World Cup","2003","England"]},
+  {cat:"Sport",color:"var(--c-sport)",emoji:"⛳",
+   name:"Nick Faldo",dates:"1957–",
+   tagline:"Six Major golf titles — greatest British golfer",
+   body:"Faldo won six Major championships (three Masters, three Open Championships) in the 1980s and 90s, becoming the most successful European golfer of his era. Known for his obsessive dedication to rebuilding his swing, he transformed himself from a promising player into a champion.",
+   tags:["Golf","Majors","Open Championship"]},
+
+  /* POLITICS & SOCIETY — additional */
+  {cat:"Politics & Society",color:"var(--c-politics)",emoji:"🏛️",
+   name:"Margaret Thatcher",dates:"1925–2013",
+   tagline:"First female Prime Minister of the UK",
+   body:"Conservative PM 1979–1990 — the longest-serving PM of the 20th century. Transformed Britain through privatisation, free-market reform and confronting trade unions. Led Britain through the Falklands War (1982). Her legacy remains fiercely debated.",
+   tags:["Prime Minister","Conservative","Falklands","First"]},
+  {cat:"Politics & Society",color:"var(--c-politics)",emoji:"📖",
+   name:"Olaudah Equiano",dates:"c.1745–1797",
+   tagline:"Freed slave whose memoir helped end the slave trade",
+   body:"Born in what is now Nigeria, Equiano was enslaved, bought his freedom, and settled in Britain. His autobiography The Interesting Narrative (1789) became a bestseller and powerfully aided the abolitionist cause. He was active in the Sons of Africa campaign.",
+   tags:["Abolition","Literature","18th Century"]},
+  {cat:"Politics & Society",color:"var(--c-politics)",emoji:"🕊️",
+   name:"Princess Diana",dates:"1961–1997",
+   tagline:"The People's Princess — humanitarian icon",
+   body:"Princess of Wales who used her global celebrity to champion humanitarian causes — AIDS patients, landmine victims, homeless people. Her death in Paris in 1997 prompted an unprecedented national outpouring of grief and changed how the Royal Family engaged with the public.",
+   tags:["Royal","Charity","Humanitarian","Icon"]},
+  {cat:"Politics & Society",color:"var(--c-politics)",emoji:"⚖️",
+   name:"Doreen Lawrence",dates:"1952–",
+   tagline:"Campaigner whose son's murder changed British law",
+   body:"After her son Stephen Lawrence was murdered in a racist attack in 1993, Doreen Lawrence campaigned tirelessly for justice. The Macpherson Report (1999) that followed found the Metropolitan Police institutionally racist — transforming race relations law in Britain. She became Baroness Lawrence in 2013.",
+   tags:["Race Equality","Justice","Macpherson","Law"]},
+];
+
+/* ═════════ STATE ═════════ */
+let mode='cards';
+let cards=[...ALL_CARDS],currentIndex=0;
+let progress=new Array(cards.length).fill(null),activeCategory='All';
+let mIndex=0,mFlipped=false,mProgress=new Array(MONARCHS.length).fill(null);
+const CARD_CATS=['All',...new Set(ALL_CARDS.map(c=>c.cat))];
+let currentEra='all';
+
+/* ═════════ MODE SWITCH ═════════ */
+function setMode(m){
+  mode=m;
+  document.getElementById('cardsView').style.display=m==='cards'?'flex':'none';
+  document.getElementById('monarchsView').style.display=m==='monarchs'?'block':'none';
+  document.getElementById('timelineView').style.display=m==='timeline'?'block':'none';
+  document.getElementById('peopleView').style.display=m==='people'?'block':'none';
+  document.getElementById('lawView').style.display=m==='law'?'block':'none';
+  document.querySelectorAll('.mode-tab').forEach((t,i)=>t.classList.toggle('active',['cards','monarchs','timeline','people','law'][i]===m));
+  if(m==='cards')renderAll();
+  if(m==='monarchs')renderFamilyTree();
+  if(m==='timeline')renderTimeline('all');
+  if(m==='people')renderPeople('all');
+  if(m==='law')renderLaw('courts');
+}
+
+/* ═════════ FLASHCARDS — MULTIPLE CHOICE ═════════ */
+function getFiltered(){return activeCategory==='All'?[...ALL_CARDS]:ALL_CARDS.filter(c=>c.cat===activeCategory)}
+function renderTabs(){
+  const el=document.getElementById('tabs');el.innerHTML='';
+  CARD_CATS.forEach(cat=>{
+    const b=document.createElement('button');b.className='tab'+(cat===activeCategory?' active':'');
+    b.textContent=cat+(cat!=='All'?' ('+ALL_CARDS.filter(c=>c.cat===cat).length+')':'');
+    b.onclick=()=>{activeCategory=cat;cards=getFiltered();progress=new Array(cards.length).fill(null);currentIndex=0;renderAll()};
+    el.appendChild(b);
+  });
+}
+function renderCard(){
+  const c=cards[currentIndex];
+  document.getElementById('mcCategory').textContent=c.cat;
+  document.getElementById('mcCounter').textContent=`Q ${currentIndex+1} / ${cards.length}`;
+  document.getElementById('mcQuestion').textContent=c.q;
+  const hint=document.getElementById('mcHint');
+  hint.textContent=c.hint||'';
+  hint.classList.remove('visible');
+
+  const optsEl=document.getElementById('mcOptions');
+  optsEl.innerHTML='';
+  const letters=['A','B','C','D'];
+  const answered=progress[currentIndex];
+
+  c.options.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='mc-opt'+(answered!==null?' disabled':'');
+    if(answered!==null){
+      if(i===c.correct) btn.classList.add('correct');
+      else if(i===answered && i!==c.correct) btn.classList.add('wrong');
+    }
+    btn.innerHTML=`<span class="mc-opt-letter">${letters[i]}</span><span>${opt}</span>`;
+    if(answered===null){
+      btn.onclick=()=>selectAnswer(i);
+    }
+    optsEl.appendChild(btn);
+  });
+}
+function selectAnswer(i){
+  const c=cards[currentIndex];
+  progress[currentIndex]=i;
+  renderCard();
+  // Show hint after answering
+  if(c.hint){
+    const hint=document.getElementById('mcHint');
+    hint.classList.add('visible');
+  }
+  // Auto-advance after delay
+  setTimeout(()=>{
+    if(currentIndex<cards.length-1){currentIndex++;renderAll();}
+    else renderDots();
+  }, i===c.correct ? 900 : 1600);
+}
+function renderProgress(){
+  const total=cards.length;
+  const correct=progress.filter((p,i)=>p===cards[i].correct).length;
+  const answered=progress.filter(p=>p!==null).length;
+  document.getElementById('progressFill').style.width=`${((currentIndex+1)/total)*100}%`;
+  document.getElementById('progressText').textContent=
+    answered===0 ? `Question ${currentIndex+1} of ${total}` :
+    `Question ${currentIndex+1} of ${total}  ·  ${correct} correct of ${answered} answered`;
+}
+function renderDots(){
+  const el=document.getElementById('dots');el.innerHTML='';
+  cards.forEach((_,i)=>{
+    const d=document.createElement('div');
+    const ans=progress[i];
+    const isCorrect=ans===cards[i].correct;
+    d.className='dot'+(i===currentIndex?' current':ans===null?'':isCorrect?' known':' unsure');
+    d.title=ans===null?'Unanswered':isCorrect?'Correct':'Incorrect';
+    d.onclick=()=>{currentIndex=i;progress[i]=null;renderAll()};
+    el.appendChild(d);
+  });
+}
+function renderAll(){renderTabs();renderCard();renderProgress();renderDots()}
+function nextCard(){if(currentIndex<cards.length-1){currentIndex++;renderAll()}}
+function prevCard(){if(currentIndex>0){currentIndex--;renderAll()}}
+function shuffleCards(){
+  for(let i=cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cards[i],cards[j]]=[cards[j],cards[i]]}
+  progress=new Array(cards.length).fill(null);currentIndex=0;renderAll();
+}
+
+
+/* ═════════════════════════════════════════════════════════
+   FAMILY TREE
+   We define the tree as a set of dynasties, each with rows.
+   Each node has: id, name, reign, house, houseColor,
+     parent (id of biological/succession parent node),
+     succParent (id when succession crosses dynasty/family line),
+     reigned (bool), facts, succession
+═════════════════════════════════════════════════════════ */
+
+// Map monarch names to MONARCHS array for detail lookup
+// Tree data — each dynasty is a group; rows are visual rows within it
+const FT_DYNASTIES=[
+  {id:'norman',label:'Norman',color:'#c8894a',rows:[
+    [{id:'William I (Conqueror)',reigned:true,crown:'♛',parent:null}],
+    [{id:'William II',reigned:true,crown:'♛',parent:'William I (Conqueror)'},
+     {id:'Henry I',reigned:true,crown:'♛',parent:'William I (Conqueror)'},
+     {id:'Empress Matilda',reigned:false,crown:'♀',parent:'Henry I',note:'Never crowned'}],
+  ]},
+  {id:'anarchy',label:'The Anarchy',color:'#888',rows:[
+    [{id:'King Stephen',reigned:true,crown:'♛',parent:'Henry I',note:'Nephew of Henry I; disputed reign 1135–1154',
+      facts:'• Seized the throne on Henry I\'s death, bypassing Empress Matilda\n• His reign was marked by civil war with Matilda — a period called "The Anarchy"\n• Agreed to Matilda\'s son Henry as his heir; died 1154',
+      succession:'Nephew of Henry I through his mother Adela. Succeeded by Henry II (Plantagenet).'}],
+  ]},
+  {id:'plantagenet',label:'Plantagenet',color:'#7b5ea7',rows:[
+    [{id:'Henry II',reigned:true,crown:'♛',parent:'Empress Matilda',succParent:'King Stephen'}],
+    [{id:'Richard I (Lionheart)',reigned:true,crown:'♛',parent:'Henry II'},
+     {id:'King John',reigned:true,crown:'♛',parent:'Henry II'}],
+    [{id:'Henry III',reigned:true,crown:'♛',parent:'King John',
+      facts:'• Son of King John; became king aged 9\n• Struggled with baronial opposition throughout his reign\n• Rebuilt Westminster Abbey in its current Gothic style',
+      succession:'Son of King John. Succeeded by son Edward I.'}],
+    [{id:'Edward I',reigned:true,crown:'♛',parent:'Henry III'}],
+    [{id:'Edward II',reigned:true,crown:'♛',parent:'Edward I',
+      facts:'• Son of Edward I; deposed by his wife Isabella and her lover Mortimer\n• The first Prince of Wales\n• Murdered in Berkeley Castle in 1327',
+      succession:'Son of Edward I. Deposed; succeeded by son Edward III.'}],
+    [{id:'Edward III',reigned:true,crown:'♛',parent:'Edward II'}],
+  ]},
+  {id:'lancaster',label:'Lancaster',color:'#a83232',rows:[
+    [{id:'Henry IV',reigned:true,crown:'♛',parent:'Edward III',note:'Son of John of Gaunt (3rd son of Edward III)',
+      facts:'• First Lancastrian king; deposed Richard II\n• Faced numerous rebellions including Owain Glyndŵr in Wales\n• Established the Lancastrian line with the red rose symbol',
+      succession:'Son of John of Gaunt (son of Edward III). Succeeded by son Henry V.'}],
+    [{id:'Henry V',reigned:true,crown:'♛',parent:'Henry IV'}],
+    [{id:'Henry VI',reigned:true,crown:'♛',parent:'Henry V',
+      facts:'• Became king as an infant (9 months old)\n• Lost all English territories in France except Calais\n• Suffered mental breakdowns; his weakness led to the Wars of the Roses',
+      succession:'Son of Henry V. Deposed by Edward IV (York); briefly restored 1470–71. Murdered in Tower.'}],
+  ]},
+  {id:'york',label:'York',color:'#d4a800',rows:[
+    [{id:'Edward IV',reigned:true,crown:'♛',parent:'Edward III',note:'Great-great-grandson of Edward III via 4th son',
+      facts:'• Led the Yorkist cause; defeated Henry VI twice\n• Restored stability and revived royal finances\n• Died suddenly aged 40; succeeded by his young son',
+      succession:'Descended from Edward III (York line). Succeeded by son Edward V, then Richard III.'}],
+    [{id:'Richard III',reigned:true,crown:'♛',parent:'Edward IV',note:'Brother of Edward IV',
+      facts:'• Seized the throne from his nephew Edward V\n• The Princes in the Tower (Edward V and his brother) disappeared during his reign\n• Killed at Bosworth Field (1485) — the last English king to die in battle',
+      succession:'Brother of Edward IV. Defeated and killed by Henry Tudor (Henry VII) at Bosworth Field 1485.'}],
+  ]},
+  {id:'tudor',label:'Tudor',color:'#c0392b',rows:[
+    [{id:'Henry VII',reigned:true,crown:'♛',parent:'Henry VI',note:'Via maternal Lancaster descent; married Elizabeth of York',succParent:'Richard III'}],
+    [{id:'Henry VIII',reigned:true,crown:'♛',parent:'Henry VII'}],
+    [{id:'Edward VI',reigned:true,crown:'♛',parent:'Henry VIII',note:'Son by Jane Seymour'},
+     {id:'Mary I',reigned:true,crown:'♛',parent:'Henry VIII',note:'Daughter by Catherine of Aragon'},
+     {id:'Elizabeth I',reigned:true,crown:'♛',parent:'Henry VIII',note:'Daughter by Anne Boleyn'}],
+  ]},
+  {id:'stuart',label:'Stuart',color:'#2980b9',rows:[
+    [{id:'James I',reigned:true,crown:'♛',parent:'Henry VII',note:'Great-great-grandson via Margaret Tudor',succParent:'Elizabeth I'}],
+    [{id:'Charles I',reigned:true,crown:'♛',parent:'James I'}],
+    [{id:'Commonwealth',reigned:false,crown:'⚒',parent:'Charles I',note:'Oliver Cromwell 1649–1660',
+      facts:'• England was a republic (Commonwealth) 1649–1660\n• Oliver Cromwell served as Lord Protector 1653–1658\n• His son Richard Cromwell resigned after 8 months; monarchy restored 1660',
+      succession:'Not a monarch. Succeeded by restoration of Charles II.'}],
+    [{id:'Charles II',reigned:true,crown:'♛',parent:'Charles I',succParent:'Commonwealth'},
+     {id:'James II',reigned:true,crown:'♛',parent:'Charles I',note:'Deposed 1688'}],
+    [{id:'William III & Mary II',reigned:true,crown:'♛♛',parent:'James II',note:'Mary was daughter of James II; William her husband'},
+     {id:'Queen Anne',reigned:true,crown:'♛',parent:'James II',note:'Sister of Mary II'}],
+  ]},
+  {id:'hanover',label:'Hanover',color:'#27ae60',rows:[
+    [{id:'George I',reigned:true,crown:'♛',parent:'James I',note:'Great-grandson via Sophia of Hanover',succParent:'Queen Anne'}],
+    [{id:'George II',reigned:true,crown:'♛',parent:'George I',
+      facts:'• Son of George I; last British monarch to personally lead troops in battle (Dettingen 1743)\n• His reign saw the Jacobite Rising of 1745 crushed at Culloden\n• Patron of Handel; died 1760',
+      succession:'Son of George I. Succeeded by grandson George III.'}],
+    [{id:'George III',reigned:true,crown:'♛',parent:'George II',note:'Grandson of George II'}],
+    [{id:'George IV',reigned:true,crown:'♛',parent:'George III',
+      facts:'• Prince Regent 1811–1820 due to his father\'s illness; became king 1820\n• Known for extravagant lifestyle; built the Brighton Pavilion\n• His marriage to Caroline of Brunswick was notoriously unhappy',
+      succession:'Son of George III. Succeeded by brother William IV.'}],
+    [{id:'William IV',reigned:true,crown:'♛',parent:'George III',note:'Brother of George IV',
+      facts:'• Third son of George III; known as the "Sailor King"\n• Reigned during the passage of the Great Reform Act (1832)\n• Died without legitimate heirs; succeeded by niece Victoria',
+      succession:'Son of George III. Succeeded by niece Queen Victoria.'}],
+  ]},
+  {id:'saxecoburg',label:'Saxe-Coburg / Windsor',color:'#16a085',rows:[
+    [{id:'Queen Victoria',reigned:true,crown:'♛',parent:'William IV',note:'Niece of William IV; House Saxe-Coburg',succParent:'William IV'}],
+    [{id:'Edward VII',reigned:true,crown:'♛',parent:'Queen Victoria'}],
+    [{id:'George V',reigned:true,crown:'♛',parent:'Edward VII',note:'Renamed House Windsor 1917'}],
+    [{id:'Edward VIII',reigned:false,crown:'♛',parent:'George V',note:'Abdicated 1936'},
+     {id:'George VI',reigned:true,crown:'♛',parent:'George V'}],
+    [{id:'Elizabeth II',reigned:true,crown:'♛',parent:'George VI'}],
+    [{id:'Charles III',reigned:true,crown:'♛',parent:'Elizabeth II'}],
+  ]},
+];
+
+/* ═══════════════════════════════════════════
+   FAMILY TREE — horizontal dynasties, popup detail
+═══════════════════════════════════════════ */
+
+function nid(id){ return 'ft_'+id.replace(/[^a-zA-Z0-9]/g,'_'); }
+
+// Enrich nodes with MONARCHS data
+function enrichNode(node, dynastyColor){
+  node.dynastyColor = dynastyColor;
+  const m = MONARCHS.find(m=>m.name===node.id);
+  if(m){
+    node.reign = m.reign; node.house = m.house; node.houseColor = m.houseColor;
+    if(!node.facts) node.facts = m.facts;
+    if(!node.succession) node.succession = m.succession;
+  } else {
+    node.reign = node.reign||''; node.house = node.house||'';
+    node.houseColor = dynastyColor;
+  }
+}
+FT_DYNASTIES.forEach(d => d.rows.forEach(row => row.forEach(n => enrichNode(n, d.color))));
+
+const FT_ALL = FT_DYNASTIES.flatMap(d => d.rows.flat());
+const FT_REIGNED = FT_ALL.filter(n => n.reigned);
+let ftActiveId = null;
+
+/* ── render everything ── */
+function renderFamilyTree(){
+  renderFTLegend();
+  renderFTDynasties();
+  renderFTTimeline();
+}
+
+function renderFTLegend(){
+  const el = document.getElementById('ftLegend');
+  el.innerHTML = FT_DYNASTIES.map(d=>
+    `<div style="display:flex;align-items:center;gap:5px;font-size:0.67rem;color:rgba(250,246,238,0.62)">
+      <div style="width:9px;height:9px;border-radius:2px;background:${d.color};flex-shrink:0"></div>${d.label}
+    </div>`
+  ).join('');
+}
+
+function renderFTDynasties(){
+  const row = document.getElementById('ftDynastyRow');
+  row.innerHTML = '';
+
+  FT_DYNASTIES.forEach((dynasty, di) => {
+    // Arrow between dynasties
+    if(di > 0){
+      const arrow = document.createElement('div');
+      arrow.className = 'ft-arrow';
+      // Find which node links INTO this dynasty (has succParent)
+      const entryNode = dynasty.rows[0][0];
+      const label = entryNode.succParent ? entryNode.succParent.split(' ').slice(0,2).join(' ') : '';
+      arrow.innerHTML = `<div class="ft-arrow-inner">
+        <div class="ft-arrow-line"></div>
+        <div class="ft-arrow-head">→</div>
+      </div>`;
+      row.appendChild(arrow);
+    }
+
+    // Dynasty column
+    const col = document.createElement('div');
+    col.className = 'ft-dynasty';
+
+    // Header
+    const hdr = document.createElement('div');
+    hdr.className = 'ft-dynasty-header';
+    hdr.style.cssText = `background:${dynasty.color}18;color:${dynasty.color};`;
+    hdr.textContent = dynasty.label;
+    col.appendChild(hdr);
+
+    // Body — rows of nodes
+    const body = document.createElement('div');
+    body.className = 'ft-dynasty-body';
+
+    // SVG layer for connectors within dynasty
+    const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('class','ft-dynasty-svg');
+    svg.setAttribute('width','100%');
+    svg.setAttribute('height','100%');
+    body.appendChild(svg);
+
+    // Keep track of node elements for connector drawing
+    const nodeEls = {};
+
+    dynasty.rows.forEach(rowData => {
+      const rowEl = document.createElement('div');
+      rowEl.className = 'ft-row';
+      rowData.forEach(node => {
+        const nd = document.createElement('div');
+        nd.className = 'ft-node' + (node.reigned ? ' reigned' : '');
+        nd.id = nid(node.id);
+        nd.style.cssText = `border-color:${dynasty.color}35;`
+          + (node.reigned ? `border-left-color:${dynasty.color};border-left-width:3px;` : '');
+        nd.innerHTML = `
+          <span class="ft-node-crown">${node.crown||'♛'}</span>
+          <div class="ft-node-name">${node.id}</div>
+          ${node.reign ? `<div class="ft-node-reign">${node.reign}</div>` : ''}
+          ${node.note ? `<div class="ft-node-note">${node.note}</div>` : ''}`;
+        nd.addEventListener('click', () => openFTPopup(node, nd));
+        nodeEls[node.id] = nd;
+        rowEl.appendChild(nd);
+      });
+      body.appendChild(rowEl);
+    });
+
+    col.appendChild(body);
+    row.appendChild(col);
+
+    // Draw SVG connectors inside this dynasty after layout
+    requestAnimationFrame(() => {
+      const bodyRect = body.getBoundingClientRect();
+      svg.setAttribute('width', body.offsetWidth);
+      svg.setAttribute('height', body.offsetHeight);
+
+      dynasty.rows.forEach(rowData => {
+        rowData.forEach(node => {
+          if(!node.parent) return;
+          // Only draw within-dynasty connections (not succParent cross-dynasty links)
+          if(node.succParent) return;
+          const childEl = nodeEls[node.id];
+          const parentEl = nodeEls[node.parent];
+          if(!childEl || !parentEl) return;
+
+          const cR = childEl.getBoundingClientRect();
+          const pR = parentEl.getBoundingClientRect();
+          const px = pR.left - bodyRect.left + pR.width/2;
+          const py = pR.top  - bodyRect.top  + pR.height;
+          const cx = cR.left - bodyRect.left + cR.width/2;
+          const cy = cR.top  - bodyRect.top;
+          const midY = (py + cy) / 2;
+
+          const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+          path.setAttribute('d', `M ${px} ${py} C ${px} ${midY}, ${cx} ${midY}, ${cx} ${cy}`);
+          path.setAttribute('fill','none');
+          path.setAttribute('stroke', dynasty.color+'70');
+          path.setAttribute('stroke-width','1.5');
+          svg.appendChild(path);
+        });
+      });
+    });
+  });
+}
+
+function renderFTTimeline(){
+  const el = document.getElementById('ftTimelineItems');
+  el.innerHTML = '';
+  FT_REIGNED.forEach(node => {
+    const item = document.createElement('div');
+    item.className = 'ft-tl-item';
+    item.id = 'fttl_' + nid(node.id);
+    item.innerHTML = `
+      <div class="ft-tl-bar" style="background:${node.dynastyColor}"></div>
+      <div>
+        <div class="ft-tl-name" style="color:${node.dynastyColor}">${node.id}</div>
+        <div class="ft-tl-reign">${node.reign||''}</div>
+      </div>`;
+    item.addEventListener('click', () => {
+      const nd = document.getElementById(nid(node.id));
+      if(nd){ nd.scrollIntoView({behavior:'smooth',block:'center'}); openFTPopup(node, nd); }
+    });
+    el.appendChild(item);
+  });
+}
+
+/* ── Popup ── */
+function openFTPopup(node, nodeEl){
+  // Highlight node + timeline item
+  document.querySelectorAll('.ft-node.active').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.ft-tl-item.active').forEach(n=>n.classList.remove('active'));
+  if(nodeEl) nodeEl.classList.add('active');
+  ftActiveId = node.id;
+  const tlItem = document.getElementById('fttl_'+nid(node.id));
+  if(tlItem){ tlItem.classList.add('active'); tlItem.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+
+  const c = node.dynastyColor;
+  const popup = document.getElementById('ftPopup');
+  popup.style.setProperty('--pop-color', c);
+  popup.style.borderColor = c+'40';
+
+  document.getElementById('ftPopupContent').innerHTML = `
+    <div class="ftpop-dynasty-bar" style="background:linear-gradient(90deg,${c},transparent)"></div>
+    <div class="ftpop-top">
+      <span class="ftpop-crown">${node.crown||'♛'}</span>
+      <div>
+        <div class="ftpop-name">${node.id}</div>
+        <div class="ftpop-reign">${node.reign||'dates unknown'}</div>
+        <span class="ftpop-pill" style="border-color:${c};color:${c}">House of ${node.house||node.dynastyColor}</span>
+        ${node.note ? `<div class="ftpop-note-line">${node.note}</div>` : ''}
+      </div>
+    </div>
+    <div class="ftpop-divider"></div>
+    ${node.facts
+      ? `<div class="ftpop-facts">${node.facts}</div>`
+      : `<div style="opacity:0.38;font-size:0.78rem;font-style:italic">No detailed records held.</div>`}
+    ${node.succession
+      ? `<div class="ftpop-succ"><b>Succession:</b> ${node.succession}</div>`
+      : ''}`;
+
+  document.getElementById('ftPopupOverlay').classList.add('open');
+}
+
+function closeFTPopup(){
+  document.getElementById('ftPopupOverlay').classList.remove('open');
+  document.querySelectorAll('.ft-node.active').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.ft-tl-item.active').forEach(n=>n.classList.remove('active'));
+  ftActiveId = null;
+}
+
+// Close popup on Escape
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeFTPopup(); });
+
+/* ═════════ TIMELINE ═════════ */
+function filterEra(btn,era){
+  currentEra=era;
+  document.querySelectorAll('.era-btn').forEach(b=>b.classList.toggle('active',b===btn));
+  renderTimeline(era);
+}
+
+// Resolve CSS variable colours to hex strings for inline use
+const COLOR_MAP={
+  'var(--c-war)':'#e05c5c',
+  'var(--c-reform)':'#4cbe8a',
+  'var(--c-event)':'#c9a84c',
+  'var(--c-law)':'#8fa3b0',
+  'var(--c-monarch)':'#4a9edd',
+};
+function resolveColor(c){ return COLOR_MAP[c]||c; }
+
+function renderTimeline(era){
+  const container=document.getElementById('tlContent');
+  container.innerHTML='';
+
+  const eras=era==='all'?ERAS:ERAS.filter(e=>e.id===era);
+  let side=0;
+
+  eras.forEach(eraData=>{
+    // Era header chip
+    const hdr=document.createElement('div');
+    hdr.className='tl-era-header';
+    const chip=document.createElement('div');
+    chip.className='tl-era-chip';
+    chip.style.cssText=`color:${eraData.color};border-color:${eraData.color}55;`;
+    chip.textContent=eraData.label;
+    hdr.appendChild(chip);
+    container.appendChild(hdr);
+
+    // Events alternating left / right
+    eraData.events.forEach(ev=>{
+      const color=resolveColor(ev.color);
+      const isLeft=(side%2===0);
+      side++;
+
+      const row=document.createElement('div');
+      row.className='tl-event-row '+(isLeft?'left':'right');
+
+      const hline=document.createElement('div');
+      hline.className='tl-event-hline';
+      hline.style.background=color;
+
+      const dot=document.createElement('div');
+      dot.className='tl-event-dot';
+      dot.style.background=color;
+
+      const card=document.createElement('div');
+      card.className='tl-event-card';
+      card.style.background=color+'0d';
+
+      const bar=document.createElement('div');
+      bar.className='tl-event-card-bar';
+      bar.style.background=color;
+
+      const TYPE_LABELS={war:'War',reform:'Reform',event:'Event',law:'Law'};
+
+      const rulerHtml=(ev.ruler||ev.pm)?`
+        <div class="tl-ruler-row">
+          ${ev.ruler?`<span class="tl-ruler-note" style="color:${ev.ruler.color}">♛ ${ev.ruler.name}</span>`:''}
+          ${ev.ruler&&ev.pm?`<span class="tl-ruler-divider"></span>`:''}
+          ${ev.pm?`<span class="tl-ruler-note" style="color:rgba(200,185,155,0.75)">🏛 ${ev.pm}</span>`:''}
+        </div>`
+        :'';
+
+      card.innerHTML=`
+        <div style="margin-bottom:3px">
+          <span class="tl-event-year" style="color:${color}">${ev.year}</span>
+          <span class="tl-event-type" style="color:${color}">${TYPE_LABELS[ev.type]||ev.type}</span>
+        </div>
+        <div class="tl-event-title">${ev.title}</div>
+        ${ev.sub?`<div class="tl-event-sub">${ev.sub}</div>`:''}
+        <div class="tl-event-body">${ev.body||''}
+          ${ev.tags?`<div class="tl-event-tags">${ev.tags.map(t=>`<span class="tl-tag">${t}</span>`).join('')}</div>`:''}
+        </div>
+        ${rulerHtml}`;
+      card.prepend(bar);
+      card.addEventListener('click',()=>card.classList.toggle('open'));
+
+      row.appendChild(hline);
+      row.appendChild(dot);
+      row.appendChild(card);
+      container.appendChild(row);
+    });
+  });
+}
+
+function getMonarchByName(name){
+  return MONARCHS.find(m=>m.name===name)||null;
+}
+
+function makeEventCard(){} // kept as stub — no longer used directly
+
+/* ═════════ NOTABLE BRITONS ═════════ */
+const PEOPLE_CATS=['all','Science & Invention','Arts & Literature','Sport','Politics & Society'];
+
+function renderPeople(cat){
+  // render filter buttons
+  const catEl=document.getElementById('peopleCats');
+  catEl.innerHTML='';
+  PEOPLE_CATS.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='era-btn'+(c===cat?' active':'');
+    b.textContent=c==='all'?'All Fields':c;
+    b.onclick=()=>renderPeople(c);
+    catEl.appendChild(b);
+  });
+
+  const grid=document.getElementById('peopleGrid');
+  grid.innerHTML='';
+  const filtered=cat==='all'?PEOPLE:PEOPLE.filter(p=>p.cat===cat);
+  filtered.forEach(p=>{
+    const card=document.createElement('div');
+    card.style.cssText=`border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);padding:14px 16px;cursor:pointer;transition:border-color 0.18s,box-shadow 0.18s;position:relative;overflow:hidden;`;
+    card.innerHTML=`
+      <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:${p.color};border-radius:3px 0 0 3px;"></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span style="font-size:1.4rem">${p.emoji}</span>
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:0.95rem;line-height:1.2;color:var(--cream)">${p.name}</div>
+          <div style="font-size:0.65rem;color:${p.color};opacity:0.85;letter-spacing:1px;margin-top:2px">${p.dates}</div>
+        </div>
+      </div>
+      <div style="display:inline-block;font-size:0.62rem;letter-spacing:1.2px;text-transform:uppercase;padding:2px 8px;border-radius:8px;border:1px solid ${p.color};color:${p.color};opacity:0.7;margin-bottom:7px">${p.cat}</div>
+      <div style="font-size:0.8rem;font-style:italic;opacity:0.65;margin-bottom:8px;line-height:1.4">"${p.tagline}"</div>
+      <div style="font-size:0.76rem;line-height:1.62;opacity:0;max-height:0;overflow:hidden;transition:opacity 0.3s,max-height 0.4s ease" class="people-body">${p.body}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:0" class="people-tags">${(p.tags||[]).map(t=>`<span class="tl-tag">${t}</span>`).join('')}</div>
+    `;
+    card.addEventListener('click',()=>{
+      const body=card.querySelector('.people-body');
+      const open=body.style.maxHeight!=='0px'&&body.style.maxHeight!=='';
+      body.style.opacity=open?'0':'0.78';
+      body.style.maxHeight=open?'0':'300px';
+      card.style.borderColor=open?'rgba(255,255,255,0.08)':p.color+'55';
+      card.style.boxShadow=open?'':'0 4px 20px rgba(0,0,0,0.3)';
+    });
+    grid.appendChild(card);
+  });
+}
+
+/* ═════════ KEYBOARD ═════════ */
+document.addEventListener('keydown',e=>{
+  if(mode==='cards'){
+    if(e.key==='ArrowRight')nextCard();
+    else if(e.key==='ArrowLeft')prevCard();
+    else if(e.key==='1'||e.key==='a'||e.key==='A')selectAnswer(0);
+    else if(e.key==='2'||e.key==='b'||e.key==='B')selectAnswer(1);
+    else if(e.key==='3'||e.key==='c'||e.key==='C')selectAnswer(2);
+    else if(e.key==='4'||e.key==='d'||e.key==='D')selectAnswer(3);
+  }
+});
+
+/* ═════════ UK LAW ═════════ */
+const LAW_TABS=[
+  {id:'courts',  label:'⚖️ Court Hierarchy'},
+  {id:'criminal',label:'🔴 Criminal vs Civil'},
+  {id:'lawmaking',label:'📋 How Laws Are Made'},
+  {id:'rights',  label:'🛡️ Rights & Duties'},
+  {id:'devolved', label:'🏴󠁧󠁢󠁳󠁣󠁴󠁿 Devolved Powers'},
+  {id:'keyfacts', label:'📌 Key Facts'},
+];
+
+function renderLaw(tab){
+  // Tabs
+  const tabsEl=document.getElementById('lawTabs');
+  tabsEl.innerHTML='';
+  LAW_TABS.forEach(t=>{
+    const b=document.createElement('button');
+    b.className='era-btn'+(t.id===tab?' active':'');
+    b.textContent=t.label;
+    b.onclick=()=>renderLaw(t.id);
+    tabsEl.appendChild(b);
+  });
+
+  const el=document.getElementById('lawContent');
+  el.innerHTML='';
+
+  if(tab==='courts')     el.appendChild(buildCourts());
+  if(tab==='criminal')   el.appendChild(buildCriminalCivil());
+  if(tab==='lawmaking')  el.appendChild(buildLawMaking());
+  if(tab==='rights')     el.appendChild(buildRights());
+  if(tab==='devolved')   el.appendChild(buildDevolved());
+  if(tab==='keyfacts')   el.appendChild(buildKeyFacts());
+}
+
+/* ── helpers ── */
+function lawSection(title,subtitle){
+  const wrap=document.createElement('div');
+  wrap.style.cssText='margin-bottom:32px';
+  const h=document.createElement('div');
+  h.innerHTML=`<div style="font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--gold);margin-bottom:4px">${title}</div>
+               <div style="font-size:0.72rem;opacity:0.5;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px">${subtitle||''}</div>`;
+  wrap.appendChild(h);
+  return wrap;
+}
+function lawCard(bg,border,content){
+  const d=document.createElement('div');
+  d.style.cssText=`background:${bg};border:1px solid ${border};border-radius:12px;padding:16px 18px;`;
+  d.innerHTML=content;
+  return d;
+}
+
+/* ══ 1. COURT HIERARCHY ══ */
+function buildCourts(){
+  const wrap=lawSection('Court Hierarchy','England & Wales  ·  Scotland — click any court to expand');
+
+  const intro=document.createElement('div');
+  intro.style.cssText='font-size:0.8rem;opacity:0.6;margin-bottom:24px;line-height:1.7';
+  intro.textContent='The UK has two distinct legal systems: England & Wales share one hierarchy; Scotland has its own separate system rooted in Scots law (a unique mix of common and civil law traditions). Both ultimately share the UK Supreme Court for civil/devolved matters — but Scottish criminal appeals stop at the High Court of Justiciary.';
+  wrap.appendChild(intro);
+
+  // ── Shared Supreme Court banner ──
+  const supreme=document.createElement('div');
+  supreme.style.cssText='background:#c9a84c18;border:1px solid #c9a84c55;border-radius:10px;padding:11px 18px;margin-bottom:4px;cursor:pointer;transition:background 0.2s';
+  supreme.innerHTML=`
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="font-size:1.1rem">🏛️</span>
+      <div style="flex:1">
+        <div style="font-weight:600;color:#c9a84c;font-size:0.92rem">UK Supreme Court</div>
+        <div style="font-size:0.72rem;opacity:0.6;margin-top:2px">Highest court for civil & devolved matters across the whole UK</div>
+      </div>
+      <span style="font-size:0.55rem;letter-spacing:1px;text-transform:uppercase;opacity:0.4">HIGHEST</span>
+    </div>
+    <div class="law-expand-body" style="display:none;margin-top:8px;padding-top:8px;border-top:1px solid #c9a84c30;font-size:0.76rem;opacity:0.75;line-height:1.6">
+      12 Justices · Established 2009 · Replaced the Appellate Committee of the House of Lords ·
+      <b>Scottish criminal appeals do NOT come here</b> — they end at the High Court of Justiciary.
+      Hears civil appeals from Court of Session (Scotland) and Court of Appeal (E&amp;W).
+    </div>`;
+  supreme.addEventListener('click',()=>{
+    const b=supreme.querySelector('.law-expand-body');
+    const open=b.style.display==='block';
+    b.style.display=open?'none':'block';
+    supreme.style.background=open?'#c9a84c18':'#c9a84c28';
+  });
+  wrap.appendChild(supreme);
+
+  // Diverge arrows
+  const divArrow=document.createElement('div');
+  divArrow.style.cssText='display:flex;justify-content:center;gap:0;margin:2px 0 4px';
+  divArrow.innerHTML=`
+    <div style="width:50%;display:flex;flex-direction:column;align-items:center">
+      <div style="width:2px;height:14px;background:rgba(255,255,255,0.15)"></div>
+      <div style="color:rgba(255,255,255,0.2);font-size:0.85rem">▼</div>
+    </div>
+    <div style="width:50%;display:flex;flex-direction:column;align-items:center">
+      <div style="width:2px;height:14px;background:rgba(255,255,255,0.15)"></div>
+      <div style="color:rgba(255,255,255,0.2);font-size:0.85rem">▼</div>
+    </div>`;
+  wrap.appendChild(divArrow);
+
+  // ── Side-by-side pyramids ──
+  const cols=document.createElement('div');
+  cols.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px';
+
+  function makePyramid(heading, headColor, headFlag, levels){
+    const col=document.createElement('div');
+
+    // Column heading
+    const colHead=document.createElement('div');
+    colHead.style.cssText=`text-align:center;font-size:0.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${headColor};opacity:0.85;margin-bottom:10px`;
+    colHead.textContent=`${headFlag} ${heading}`;
+    col.appendChild(colHead);
+
+    const pyr=document.createElement('div');
+    pyr.style.cssText='display:flex;flex-direction:column;align-items:stretch;gap:3px';
+
+    levels.forEach((lv,i)=>{
+      const row=document.createElement('div');
+      // Taper effect via margin — widest at bottom
+      const indent=`${i*3}%`;
+      row.style.cssText=`margin-left:${indent};margin-right:${indent};background:${lv.color}18;border:1px solid ${lv.color}55;border-radius:9px;padding:9px 13px;cursor:pointer;transition:background 0.2s`;
+      row.innerHTML=`
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:1rem;flex-shrink:0">${lv.icon}</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:600;color:${lv.color};font-size:0.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${lv.label}</div>
+            <div style="font-size:0.67rem;opacity:0.6;margin-top:1px;line-height:1.35">${lv.sub}</div>
+          </div>
+        </div>
+        <div class="law-expand-body" style="display:none;margin-top:7px;padding-top:7px;border-top:1px solid ${lv.color}28;font-size:0.72rem;opacity:0.72;line-height:1.55">${lv.note}</div>`;
+      row.addEventListener('click',()=>{
+        const b=row.querySelector('.law-expand-body');
+        const open=b.style.display==='block';
+        b.style.display=open?'none':'block';
+        row.style.background=open?`${lv.color}18`:`${lv.color}28`;
+      });
+      pyr.appendChild(row);
+
+      if(i<levels.length-1){
+        const arr=document.createElement('div');
+        arr.style.cssText='text-align:center;color:rgba(255,255,255,0.18);font-size:0.8rem;line-height:1.1';
+        arr.textContent='▼';
+        pyr.appendChild(arr);
+      }
+    });
+    col.appendChild(pyr);
+    return col;
+  }
+
+  const ewLevels=[
+    {label:'Court of Appeal',sub:'Civil & Criminal Divisions',color:'#a78bfa',icon:'⚖️',
+     note:'Hears appeals from High Court (civil) and Crown Court (criminal). Headed by the Master of the Rolls (Civil) and Lord Chief Justice (Criminal).'},
+    {label:'High Court',sub:'Complex civil cases & judicial review',color:'#4a9edd',icon:'📜',
+     note:"3 Divisions: King's Bench (contract/tort/judicial review) · Chancery (property/trusts/IP) · Family (divorce/children). Sits mainly in London (Royal Courts of Justice) and regional centres."},
+    {label:'Crown Court',sub:'Serious criminal cases — jury trial',color:'#e05c5c',icon:'👥',
+     note:'Handles indictable offences (murder, rape, robbery). Jury of 12. Judge decides sentence; jury decides verdict. ~90 Crown Court centres across England & Wales.'},
+    {label:"County Court",sub:'Civil disputes',color:'#4cbe8a',icon:'📋',
+     note:'Handles most civil claims: debt, personal injury, housing, small claims (under £10,000). No jury in most cases. Judges sit across ~160 hearing centres.'},
+    {label:"Magistrates' Court",sub:'Minor criminal & family',color:'#4cbe8a',icon:'🏠',
+     note:"Handles ~95% of all criminal cases in England & Wales. 3 lay magistrates (JPs) or 1 District Judge. Maximum 12 months' custody. Also deals with youth court and family proceedings."},
+  ];
+
+  const scotLevels=[
+    {label:'High Court of Justiciary',sub:'Highest criminal court — no further appeal',color:'#e05c5c',icon:'🔴',
+     note:'Hears the most serious crimes (murder, rape, terrorism). Also acts as the final Scottish criminal appeal court — unlike civil cases, criminal appeals do NOT go to the UK Supreme Court. Jury of 15 in Scotland.'},
+    {label:'Court of Session',sub:'Highest civil court — appeals to UK Supreme Court',color:'#4a9edd',icon:'📜',
+     note:'Scotland\'s supreme civil court, sitting in Edinburgh. Two divisions: Outer House (first instance) and Inner House (appeals). Civil appeals can go to the UK Supreme Court.'},
+    {label:'Sheriff Appeal Court',sub:'Appeals from Sheriff Court',color:'#a78bfa',icon:'⚖️',
+     note:'Established 2015. Hears criminal and civil appeals from Sheriff Courts, reducing the burden on higher courts. Does not require leave to appeal in most cases.'},
+    {label:'Sheriff Court',sub:'Most civil & criminal cases',color:'#4cbe8a',icon:'🏠',
+     note:"Scotland's main trial court — handles ~90% of all cases. 49 Sheriff Courts across Scotland. Sheriffs are legally qualified judges. Criminal: summary & solemn procedure. Civil: includes small claims (under £5,000) and simple procedure."},
+    {label:'Justice of the Peace Court',sub:'Minor criminal matters',color:'#c9a84c',icon:'👤',
+     note:'Lay justices handle minor summary offences (e.g. road traffic, minor assaults). Maximum 60 days\' imprisonment or £2,500 fine. Legally qualified clerk advises on law.'},
+  ];
+
+  cols.appendChild(makePyramid('England & Wales','#a78bfa','🏴󠁧󠁢󠁥󠁮󠁧󠁿',ewLevels));
+  cols.appendChild(makePyramid('Scotland','#5dade2','🏴󠁧󠁢󠁳󠁣󠁴󠁿',scotLevels));
+  wrap.appendChild(cols);
+
+  // Key differences callout
+  const diffs=document.createElement('div');
+  diffs.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:4px';
+  [
+    {icon:'⚖️',color:'#c9a84c',title:'Scots Law — unique system',body:'A hybrid of Roman-Dutch civil law and English common law. Has its own terminology, procedure and court structure dating back centuries before the Acts of Union.'},
+    {icon:'👥',color:'#e05c5c',title:'Jury of 15, not 12',body:'Scottish criminal juries have 15 members. There are also three possible verdicts: Guilty · Not Guilty · Not Proven (the "Scottish verdict" — acquittal but without full exoneration).'},
+    {icon:'🔒',color:'#4a9edd',title:'Criminal appeals stay in Scotland',body:"Scotland's High Court of Justiciary is the final court for criminal matters. Unlike civil cases, Scottish criminal appeals cannot go to the UK Supreme Court in London."},
+    {icon:'📋',color:'#4cbe8a',title:'Sheriff = Scottish judge',body:'The Sheriff is the workhorse of the Scottish courts — roughly equivalent to a Circuit Judge in England. The Principal Sheriff and Sheriff Principal oversee local sheriffdoms.'},
+  ].forEach(({icon,color,title,body})=>{
+    const box=document.createElement('div');
+    box.style.cssText=`background:${color}0e;border:1px solid ${color}35;border-radius:10px;padding:12px 14px`;
+    box.innerHTML=`
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+        <span style="font-size:1rem">${icon}</span>
+        <span style="color:${color};font-weight:600;font-size:0.78rem">${title}</span>
+      </div>
+      <div style="font-size:0.71rem;opacity:0.62;line-height:1.55">${body}</div>`;
+    diffs.appendChild(box);
+  });
+  wrap.appendChild(diffs);
+  return wrap;
+}
+
+/* ══ 2. CRIMINAL vs CIVIL ══ */
+function buildCriminalCivil(){
+  const wrap=lawSection('Criminal Law vs Civil Law','Two distinct branches of the legal system');
+
+  const rows=[
+    ['','🔴 Criminal Law','🔵 Civil Law'],
+    ['Purpose','Punish offences against society / the state','Resolve disputes between individuals or organisations'],
+    ['Who brings the case','The Crown (state) — e.g. "R v Smith"','The claimant (victim) — e.g. "Jones v Brown"'],
+    ['Standard of proof','Beyond reasonable doubt','Balance of probabilities'],
+    ['Outcome if found guilty','Prison, fine, community service, caution','Compensation, injunction, damages'],
+    ['Examples','Murder, theft, assault, drug offences','Contract disputes, personal injury, divorce, housing'],
+    ['Courts used','Magistrates\' Court, Crown Court','County Court, High Court'],
+    ['Jury?','Yes — Crown Court (12 jurors)','Rarely — usually judge alone'],
+  ];
+
+  const table=document.createElement('div');
+  table.style.cssText='overflow-x:auto;margin-bottom:20px';
+
+  const t=document.createElement('table');
+  t.style.cssText='width:100%;border-collapse:collapse;font-size:0.78rem';
+
+  rows.forEach((row,ri)=>{
+    const tr=document.createElement('tr');
+    row.forEach((cell,ci)=>{
+      const td=document.createElement(ri===0?'th':'td');
+      td.textContent=cell;
+      const isHeader=(ri===0);
+      const isCrim=(ci===1&&ri>0);
+      const isCivil=(ci===2&&ri>0);
+      const isLabel=(ci===0&&ri>0);
+      td.style.cssText=`
+        padding:10px 14px;
+        text-align:${ci===0?'left':'left'};
+        border-bottom:1px solid rgba(255,255,255,0.07);
+        background:${isHeader&&ci===1?'rgba(224,92,92,0.18)':isHeader&&ci===2?'rgba(74,158,221,0.18)':isHeader&&ci===0?'transparent':isCrim?'rgba(224,92,92,0.06)':isCivil?'rgba(74,158,221,0.06)':'transparent'};
+        color:${isHeader&&ci===1?'#e05c5c':isHeader&&ci===2?'#4a9edd':isHeader?'rgba(250,246,238,0.5)':isLabel?'rgba(250,246,238,0.5)':'var(--cream)'};
+        font-weight:${isHeader||isLabel?'600':'400'};
+        font-size:${isHeader?'0.8rem':'0.76rem'};
+      `;
+      tr.appendChild(td);
+    });
+    t.appendChild(tr);
+  });
+  table.appendChild(t);
+  wrap.appendChild(table);
+
+  // Key points row
+  const pts=document.createElement('div');
+  pts.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px';
+  [
+    {c:'#e05c5c',title:'Criminal — key points',points:['Prosecuted by Crown Prosecution Service (CPS)','Defendant innocent until proven guilty','Must be 10+ years old to be criminally responsible','Jury reaches verdict; judge passes sentence']},
+    {c:'#4a9edd',title:'Civil — key points',points:['Anyone can bring a claim','Small Claims Court for amounts under £10,000','Legal aid available for some civil cases','Parties can settle out of court at any time']},
+  ].forEach(({c,title,points})=>{
+    const box=lawCard(`${c}10`,`${c}40`,`
+      <div style="color:${c};font-weight:600;font-size:0.82rem;margin-bottom:8px">${title}</div>
+      ${points.map(p=>`<div style="font-size:0.74rem;opacity:0.75;line-height:1.7;padding-left:12px;position:relative">• ${p}</div>`).join('')}`);
+    pts.appendChild(box);
+  });
+  wrap.appendChild(pts);
+  return wrap;
+}
+
+/* ══ 3. HOW A LAW IS MADE ══ */
+function buildLawMaking(){
+  const wrap=lawSection('How a Law is Made','The UK Parliamentary legislative process');
+
+  const steps=[
+    {n:'1',icon:'💡',title:'Green / White Paper',desc:'Government publishes proposals. Green Paper = consultation; White Paper = firm proposals.',color:'#c9a84c'},
+    {n:'2',icon:'📄',title:'First Reading',desc:'Bill introduced to Parliament — title read out. No debate. Can start in Commons or Lords.',color:'#a78bfa'},
+    {n:'3',icon:'💬',title:'Second Reading',desc:'Main debate on the Bill\'s principles. MPs or Lords vote on whether to proceed.',color:'#4a9edd'},
+    {n:'4',icon:'🔍',title:'Committee Stage',desc:'Line-by-line scrutiny. Amendments can be made. Usually done by a small committee.',color:'#4cbe8a'},
+    {n:'5',icon:'📝',title:'Report Stage',desc:'Further amendments proposed and debated on the floor of the House.',color:'#4cbe8a'},
+    {n:'6',icon:'✅',title:'Third Reading',desc:'Final vote on the Bill in its amended form. Limited further changes possible.',color:'#4a9edd'},
+    {n:'7',icon:'🔄',title:'Other House',desc:'Bill passes to Lords (or Commons if started in Lords). Same stages repeat. Any changes sent back ("ping-pong").',color:'#a78bfa'},
+    {n:'8',icon:'👑',title:'Royal Assent',desc:'Monarch formally approves the Bill — it becomes an Act of Parliament and the law of the land.',color:'#c9a84c'},
+  ];
+
+  const flow=document.createElement('div');
+  flow.style.cssText='position:relative;padding-left:32px';
+
+  // Vertical line
+  const vline=document.createElement('div');
+  vline.style.cssText='position:absolute;left:12px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--gold),#4cbe8a,var(--gold));opacity:0.3;border-radius:2px';
+  flow.appendChild(vline);
+
+  steps.forEach((s,i)=>{
+    const row=document.createElement('div');
+    row.style.cssText='display:flex;gap:14px;margin-bottom:10px;align-items:flex-start;cursor:pointer';
+
+    const dot=document.createElement('div');
+    dot.style.cssText=`width:24px;height:24px;border-radius:50%;background:${s.color}33;border:2px solid ${s.color}88;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:${s.color};flex-shrink:0;margin-top:2px;position:relative;z-index:1`;
+    dot.textContent=s.n;
+
+    const card=document.createElement('div');
+    card.style.cssText=`flex:1;background:${s.color}0d;border:1px solid ${s.color}30;border-radius:10px;padding:10px 14px;transition:background 0.18s`;
+    card.innerHTML=`
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+        <span style="font-size:1rem">${s.icon}</span>
+        <span style="font-weight:600;color:${s.color};font-size:0.87rem">${s.title}</span>
+      </div>
+      <div style="font-size:0.73rem;opacity:0.68;line-height:1.6">${s.desc}</div>`;
+    card.addEventListener('mouseenter',()=>card.style.background=`${s.color}18`);
+    card.addEventListener('mouseleave',()=>card.style.background=`${s.color}0d`);
+
+    row.appendChild(dot);
+    row.appendChild(card);
+    flow.appendChild(row);
+  });
+  wrap.appendChild(flow);
+
+  // Note
+  const note=document.createElement('div');
+  note.style.cssText='font-size:0.7rem;opacity:0.45;margin-top:14px;line-height:1.6;padding-left:32px';
+  note.textContent='Note: The Parliament Acts 1911 & 1949 mean the House of Lords can delay but cannot permanently block most legislation passed by the Commons.';
+  wrap.appendChild(note);
+  return wrap;
+}
+
+/* ══ 4. RIGHTS & RESPONSIBILITIES ══ */
+function buildRights(){
+  const wrap=lawSection('Rights & Responsibilities','What the law guarantees — and what it requires of you');
+
+  const grid=document.createElement('div');
+  grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:24px';
+
+  const sections=[
+    {
+      color:'#4a9edd',icon:'📜',title:'Human Rights Act 1998',
+      sub:'Incorporates the European Convention on Human Rights into UK law',
+      rights:[
+        'Right to life (Article 2)',
+        'Freedom from torture (Article 3)',
+        'Right to a fair trial (Article 6)',
+        'Right to respect for private & family life (Article 8)',
+        'Freedom of thought, conscience & religion (Article 9)',
+        'Freedom of expression (Article 10)',
+        'Freedom of assembly & association (Article 11)',
+        'Right to marry (Article 12)',
+        'Prohibition of discrimination (Article 14)',
+      ]
+    },
+    {
+      color:'#4cbe8a',icon:'🗳️',title:'Equality Act 2010',
+      sub:'Protects people from discrimination based on "protected characteristics"',
+      rights:[
+        'Age','Disability','Gender reassignment',
+        'Marriage & civil partnership','Pregnancy & maternity',
+        'Race','Religion or belief','Sex','Sexual orientation',
+      ]
+    },
+    {
+      color:'#e05c5c',icon:'⚠️',title:'Your Responsibilities',
+      sub:'Legal obligations of everyone living in the UK',
+      rights:[
+        'Obey the law at all times',
+        'Pay taxes as required',
+        'Treat others fairly regardless of background',
+        'Respect others\' rights and freedoms',
+        'Register to vote (if eligible)',
+        'Serve on a jury if called',
+        'Respect public property',
+        'Report crimes and cooperate with police',
+      ]
+    },
+    {
+      color:'#a78bfa',icon:'🏛️',title:'Constitutional Principles',
+      sub:'Fundamental pillars of the UK\'s unwritten constitution',
+      rights:[
+        'Parliamentary sovereignty — Parliament is supreme',
+        'Rule of law — no one is above the law',
+        'Separation of powers (legislature, executive, judiciary)',
+        'Constitutional monarchy — Crown acts on ministers\' advice',
+        'Judicial independence — courts free from political pressure',
+        'Individual rights protected by common law & statute',
+      ]
+    },
+  ];
+
+  sections.forEach(s=>{
+    const box=document.createElement('div');
+    box.style.cssText=`background:${s.color}0e;border:1px solid ${s.color}40;border-radius:12px;padding:16px 18px;`;
+    box.innerHTML=`
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="font-size:1.2rem">${s.icon}</span>
+        <div>
+          <div style="color:${s.color};font-weight:700;font-size:0.88rem">${s.title}</div>
+          <div style="font-size:0.67rem;opacity:0.5;margin-top:1px">${s.sub}</div>
+        </div>
+      </div>
+      <div style="height:1px;background:${s.color}25;margin:10px 0"></div>
+      ${s.rights.map(r=>`<div style="font-size:0.74rem;opacity:0.75;line-height:1.8;padding-left:10px;position:relative">
+        <span style="position:absolute;left:0;color:${s.color};opacity:0.6">›</span> ${r}
+      </div>`).join('')}`;
+    grid.appendChild(box);
+  });
+  wrap.appendChild(grid);
+
+  // Magna Carta lineage note
+  const heritage=lawCard('rgba(201,168,76,0.07)','rgba(201,168,76,0.3)',`
+    <div style="color:var(--gold);font-weight:600;font-size:0.82rem;margin-bottom:8px">📜 The Heritage of Rights</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:0.73rem">
+      ${[
+        {y:'1215',t:'Magna Carta','d':'No free man may be imprisoned without lawful judgement'},
+        {y:'1628',t:'Petition of Right','d':'Parliament must consent to taxes; no arbitrary imprisonment'},
+        {y:'1689',t:'Bill of Rights','d':'Parliamentary sovereignty; freedom of speech in Parliament'},
+        {y:'1998',t:'Human Rights Act','d':'ECHR rights enforceable in UK courts'},
+        {y:'2010',t:'Equality Act','d':'Consolidated and extended anti-discrimination law'},
+      ].map(x=>`<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px 10px;min-width:140px;flex:1">
+        <div style="color:var(--gold);font-weight:600;font-size:0.7rem">${x.y} — ${x.t}</div>
+        <div style="opacity:0.55;margin-top:3px;line-height:1.5">${x.d}</div>
+      </div>`).join('')}
+    </div>`);
+  wrap.appendChild(heritage);
+  return wrap;
+}
+
+/* ══ 5. DEVOLVED POWERS ══ */
+function buildDevolved(){
+  const wrap=lawSection('Devolved vs Reserved Powers','What the UK Parliament controls vs devolved legislatures');
+
+  const intro=document.createElement('div');
+  intro.style.cssText='font-size:0.78rem;opacity:0.6;line-height:1.7;margin-bottom:20px';
+  intro.textContent='The UK Parliament at Westminster retains authority over "reserved matters". Devolved legislatures in Scotland, Wales and Northern Ireland control "devolved matters" in their area. England has no separate parliament — Westminster acts as its legislature.';
+  wrap.appendChild(intro);
+
+  // Main grid
+  const grid=document.createElement('div');
+  grid.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px';
+
+  [
+    {color:'#c0392b',icon:'🏛️',title:'Reserved — UK Parliament (Westminster)',
+     items:['Defence & armed forces','Foreign policy & diplomacy','Immigration & nationality','Social security & benefits (most)','Broadcasting (BBC, Ofcom)','Nuclear energy & electricity regulation','Income tax rates (partly)','Constitution & electoral law']},
+    {color:'#27ae60',icon:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',title:'Devolved — Scotland, Wales, N. Ireland',
+     items:['Education & schools','Health & NHS (locally)','Housing','Local government','Environment & planning','Tourism & economic development','Agriculture (Scotland/Wales)','Justice & policing (Scotland & N. Ireland)']},
+  ].forEach(({color,icon,title,items})=>{
+    const box=document.createElement('div');
+    box.style.cssText=`background:${color}0f;border:1px solid ${color}40;border-radius:12px;padding:14px 16px`;
+    box.innerHTML=`
+      <div style="color:${color};font-weight:700;font-size:0.85rem;margin-bottom:10px">${icon} ${title}</div>
+      ${items.map(it=>`<div style="font-size:0.74rem;opacity:0.72;line-height:1.75;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:${color}">•</span>${it}</div>`).join('')}`;
+    grid.appendChild(box);
+  });
+  wrap.appendChild(grid);
+
+  // The four nations
+  const nations=document.createElement('div');
+  nations.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px';
+  [
+    {flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',name:'England',color:'#c0392b',body:'No devolved parliament. Laws made by Westminster. Population: ~56m. Capital: London.'},
+    {flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',name:'Scotland',color:'#1a5276',body:'Scottish Parliament (Holyrood, 1999). MSPs elected by proportional representation. Has own legal system and education system.'},
+    {flag:'🏴󠁧󠁢󠁷󠁬󠁳󠁿',name:'Wales',color:'#27ae60',body:'Senedd Cymru / Welsh Parliament (1999). Welsh and English both official languages. Has own NHS Wales.'},
+    {flag:'🇮🇪',name:'Northern Ireland',color:'#c9a84c',body:'Northern Ireland Assembly (Stormont, 1998). Power-sharing executive. Part of UK; shares land border with Republic of Ireland.'},
+  ].forEach(({flag,name,color,body})=>{
+    const box=document.createElement('div');
+    box.style.cssText=`background:${color}0f;border:1px solid ${color}38;border-radius:10px;padding:13px 15px`;
+    box.innerHTML=`
+      <div style="font-size:1.4rem;margin-bottom:6px">${flag}</div>
+      <div style="color:${color};font-weight:700;font-size:0.88rem;margin-bottom:6px">${name}</div>
+      <div style="font-size:0.72rem;opacity:0.65;line-height:1.6">${body}</div>`;
+    nations.appendChild(box);
+  });
+  wrap.appendChild(nations);
+  return wrap;
+}
+
+/* ══ 6. KEY FACTS ══ */
+function buildKeyFacts(){
+  const wrap=lawSection('Key Legal Facts','Essential facts for the Life in the UK test');
+
+  const facts=[
+    {icon:'👶',color:'#e05c5c',label:'Age of Criminal Responsibility',value:'10 years old',note:'In England, Wales & Northern Ireland. Scotland: 12 years.'},
+    {icon:'👥',color:'#4a9edd',label:'Jury Size',value:'12 jurors',note:'Crown Court criminal trials. Jurors must be aged 18–75, on electoral register, resident in UK for 5+ years.'},
+    {icon:'🗳️',color:'#4cbe8a',label:'Voting Age',value:'18 years old',note:'For UK Parliament & English local elections. Scotland & Wales allow 16+ for Holyrood / Senedd elections.'},
+    {icon:'🤝',color:'#a78bfa',label:'Age of Consent',value:'16 years old',note:'Applies across the UK regardless of gender or sexual orientation.'},
+    {icon:'🚗',color:'#c9a84c',label:'Driving Age',value:'17 years old',note:'For a car. 16 for a moped (up to 50cc). Must pass theory and practical tests.'},
+    {icon:'🍺',color:'#f97316',label:'Drinking Age',value:'18 years old',note:'To buy alcohol. 16/17 year olds may drink beer/wine/cider with a meal if with an adult (restaurant setting).'},
+    {icon:'📋',color:'#4a9edd',label:'Tax — Personal Allowance',value:'£12,570 (2024/25)',note:'Income below this amount is not taxed. Administered by HMRC.'},
+    {icon:'⚖️',color:'#e05c5c',label:'Small Claims Court limit',value:'£10,000',note:'County Court small claims track. For disputes under this value — no solicitor needed.'},
+    {icon:'🏠',color:'#4cbe8a',label:'Legal Age to Buy / Rent',value:'18 years old',note:'To sign a tenancy or purchase agreement. Under 18s cannot hold a legal estate in land.'},
+    {icon:'📜',color:'#a78bfa',label:'Common Law Heritage',value:'Since 1066',note:'England\'s judge-made common law tradition predates Parliament. Precedent (stare decisis) means higher court decisions bind lower courts.'},
+    {icon:'👮',color:'#c9a84c',label:'Police Detention (without charge)',value:'Up to 24 hours',note:'Standard. Extended to 36–96 hrs for serious offences with magistrate approval. Terror offences: up to 14 days.'},
+    {icon:'🏛️',color:'#f97316',label:'Supreme Court established',value:'2009',note:'Replaced the Appellate Committee of the House of Lords. 12 Justices appointed by independent commission.'},
+  ];
+
+  const grid=document.createElement('div');
+  grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;margin-bottom:24px';
+
+  facts.forEach(f=>{
+    const box=document.createElement('div');
+    box.style.cssText=`background:${f.color}0e;border:1px solid ${f.color}40;border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start`;
+    box.innerHTML=`
+      <span style="font-size:1.4rem;flex-shrink:0">${f.icon}</span>
+      <div>
+        <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;color:${f.color};opacity:0.7;margin-bottom:2px">${f.label}</div>
+        <div style="font-size:1.05rem;font-weight:700;color:${f.color};margin-bottom:4px">${f.value}</div>
+        <div style="font-size:0.71rem;opacity:0.55;line-height:1.5">${f.note}</div>
+      </div>`;
+    grid.appendChild(box);
+  });
+  wrap.appendChild(grid);
+
+  // CPS / Police structure note
+  const agencies=lawCard('rgba(255,255,255,0.03)','rgba(255,255,255,0.08)',`
+    <div style="font-weight:600;color:var(--gold);font-size:0.82rem;margin-bottom:10px">Key Legal Agencies</div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;font-size:0.73rem">
+      ${[
+        {name:'Crown Prosecution Service (CPS)',role:'Decides whether to prosecute criminal cases in England & Wales'},
+        {name:'HMCTS',role:'Her Majesty\'s Courts & Tribunals Service — administers courts'},
+        {name:'Legal Aid Agency',role:'Funds legal representation for those who cannot afford it'},
+        {name:'Judicial Appointments Commission',role:'Selects judges independently of government'},
+        {name:'Law Commission',role:'Recommends law reform to Parliament'},
+        {name:'Solicitors / Barristers',role:'Solicitors advise clients; barristers argue cases in court'},
+      ].map(a=>`<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:8px 10px;flex:1;min-width:200px">
+        <div style="color:rgba(250,246,238,0.85);font-weight:600;margin-bottom:3px">${a.name}</div>
+        <div style="opacity:0.5;line-height:1.5">${a.role}</div>
+      </div>`).join('')}
+    </div>`);
+  wrap.appendChild(agencies);
+  return wrap;
+}
+
+renderAll();
+</script>
+</body>
+</html>
