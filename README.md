@@ -2,6 +2,8 @@
 
 An interactive revision app for the Life in the UK citizenship test, built as a single self-contained HTML file with no dependencies or build steps.
 
+Available in App Store - https://apps.apple.com/gb/app/life-in-the-uk-flashcards/id6761814656
+
 ## Features
 
 - **Flashcards** — 91 multiple choice questions across 5 categories (Values, History, Government, Society, Citizenship), matching the real test format
