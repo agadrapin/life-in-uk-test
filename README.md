@@ -14,7 +14,7 @@ Available in App Store - https://apps.apple.com/gb/app/life-in-the-uk-flashcards
 
 ## Usage
 
-Download `index.html` and open it in any modern browser — or visit the live version at [agadrapin.github.io/life-in-uk-test](https://agadrapin.github.io/life-in-uk-test).
+Download `index.html` and open it in any modern browser — or visit the live version at [agadrap.github.io/life-in-uk-test](https://agadrapin.github.io/life-in-uk-test).
 
 No internet connection required after the initial load (fonts are loaded from Google Fonts).
 
